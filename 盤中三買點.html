@@ -21,6 +21,7 @@ tr.strong .nm{color:#ffd24d;font-weight:bold}
 </style></head><body>
 <header>盤中三買點派發（5分K收盤確認）　<span id="clock" style="font-weight:normal;font-size:14px"></span></header>
 <div class="bar" id="stat">連線中…</div>
+<div class="wrap"><h3 style="margin:6px 4px">族群排名對照（★=漲幅/大戶差比 前5）</h3><div id="ranks" style="display:flex;gap:14px;flex-wrap:wrap"></div></div>
 <div class="wrap" id="body"><div class="empty">載入中…(請確認橋接 bridge 有跑、股價一年.csv 已更新)</div></div>
 <script>
 var TCLS={'回後買點':'t1','多頭買':'t2','ABC買':'t3'};
@@ -52,6 +53,16 @@ function poll(){
   fetch('http://localhost:8888/signals.json',{cache:'no-store'}).then(function(r){return r.json();}).then(render)
   .catch(function(){document.getElementById('stat').innerHTML='<span style="color:#e88">連不到橋接(bridge)。請先跑 一鍵_即時橋接.bat,並用 localhost 開這頁。</span>';});
 }
+function rcell(v){if(v==null)return '<td>-</td>';var c=v>0?'up':(v<0?'dn':'');return '<td class="'+c+'">'+Number(v).toFixed(2)+'</td>';}
+function ranktbl(arr,km,ko,h1,h2){var b='';for(var i=0;i<arr.length;i++){var g=arr[i];var st=i<5?' style="background:#2a1416"':'';b+='<tr'+st+'><td>'+(i+1)+'</td><td class="nm">'+(i<5?'<span class="star">★</span> ':'')+esc(g.nm)+'</td>'+rcell(g[km])+rcell(g[ko])+'</tr>';}return '<table><thead><tr><th>#</th><th>族群</th><th>'+h1+'</th><th>'+h2+'</th></tr></thead><tbody>'+b+'</tbody></table>';}
+function renderRanks(gd){if(!gd)return;var arr=[];for(var k in gd){arr.push({nm:k,c:gd[k].c,d:gd[k].d});}
+  var byc=arr.filter(function(x){return x.c!=null;}).sort(function(a,b){return b.c-a.c;}).slice(0,15);
+  var byd=arr.filter(function(x){return x.d!=null;}).sort(function(a,b){return b.d-a.d;}).slice(0,15);
+  var el=document.getElementById('ranks');if(!el)return;
+  el.innerHTML='<div style="flex:1;min-width:300px"><h3>族群漲幅排名</h3>'+ranktbl(byc,'c','d','漲幅%','大戶差比')+'</div>'+
+               '<div style="flex:1;min-width:300px"><h3>族群大戶差排名</h3>'+ranktbl(byd,'d','c','大戶差比','漲幅%')+'</div>';}
+function pollRank(){fetch('http://localhost:8888/prices.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){renderRanks(j&&j.groups);}).catch(function(){});}
+pollRank();setInterval(pollRank,5000);
 setInterval(tick,1000);tick();
 poll();setInterval(poll,15000);
 </script></body></html>
