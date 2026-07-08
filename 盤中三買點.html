@@ -24,7 +24,7 @@ tr.strong .nm{color:#ffd24d;font-weight:bold}
 .x{position:absolute;right:12px;top:6px;cursor:pointer;font-size:22px;color:#9fb8d0}
 #search input{padding:8px 10px;width:200px;border-radius:6px;border:1px solid #345;background:#0d1621;color:#e6edf3;font-size:15px}
 #search button{padding:8px 14px;margin-left:6px;border:0;border-radius:6px;background:#4da3ff;color:#fff;font-size:15px;cursor:pointer}
-</style></head><body>
+</style></head><body><a id="lhbtn" href="#" title="盤中即時訊號需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
 <header>盤中三買點派發（5分K收盤確認）　<span id="clock" style="font-weight:normal;font-size:14px"></span></header>
 <div id="search" style="padding:8px 16px;background:#0d1621;border-bottom:1px solid #223"><input id="qcode" placeholder="輸入股號或股名 (如 2330/台積電)" onkeydown="if(event.key==='Enter')qtv()"><button onclick="qtv()">查個股/族群</button></div>
 <div class="bar" id="stat">連線中…</div>
