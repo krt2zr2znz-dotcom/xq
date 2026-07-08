@@ -1,0 +1,57 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<title>盤中三買點派發</title>
+<style>
+body{font-family:-apple-system,"Microsoft JhengHei",sans-serif;margin:0;background:#0f1720;color:#e6edf3}
+header{background:#1F4E78;padding:12px 16px;font-size:19px;font-weight:bold;position:sticky;top:0;z-index:5}
+.bar{padding:6px 16px;color:#9fb8d0;font-size:13px;background:#0d1621;border-bottom:1px solid #223}
+.wrap{padding:10px 14px}
+h3{margin:14px 4px 6px;color:#cfe0f0;font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px}
+th{background:#1F4E78;color:#fff;padding:6px 8px;position:sticky;top:44px;text-align:left}
+td{padding:5px 8px;border-bottom:1px solid #1a2530}
+tr.strong td{background:#2a1416}
+tr.strong .nm{color:#ffd24d;font-weight:bold}
+.tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:12px;font-weight:bold}
+.t1{background:#c62828;color:#fff}.t2{background:#ad1457;color:#fff}.t3{background:#546e7a;color:#fff}
+.up{color:#ff5d5d}.dn{color:#3ec77a}
+.star{color:#ffd24d}
+.empty{padding:30px;text-align:center;color:#8fb0d0}
+</style></head><body>
+<header>盤中三買點派發（5分K收盤確認）　<span id="clock" style="font-weight:normal;font-size:14px"></span></header>
+<div class="bar" id="stat">連線中…</div>
+<div class="wrap" id="body"><div class="empty">載入中…(請確認橋接 bridge 有跑、股價一年.csv 已更新)</div></div>
+<script>
+var TCLS={'回後買點':'t1','多頭買':'t2','ABC買':'t3'};
+function esc(s){return (s==null?'':(''+s)).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}
+function cnum(v){if(v==null)return '<td>-</td>';var c=v>0?'up':(v<0?'dn':'');return '<td class="'+c+'">'+Number(v).toFixed(2)+'</td>';}
+function render(j){
+  var hits=(j&&j.hits)||[];
+  document.getElementById('stat').innerHTML='資料日期 '+esc(j.date||'?')+' ‧ 更新 '+esc(j.t||'?')+' ‧ 觸發 <b>'+hits.length+'</b> 檔(★強勢族群 <b class="star">'+(j.strong||0)+'</b>)'+(j.err?' ‧ <span style="color:#e88">錯誤:'+esc(j.err)+'</span>':'');
+  if(!hits.length){document.getElementById('body').innerHTML='<div class="empty">目前沒有個股觸發三買點<br><span style="font-size:12px">(盤中會即時跳出;若一直空白,確認橋接狀態與歷史檔日期)</span></div>';return;}
+  // 分兩區:強勢族群、其他
+  function tbl(list){
+    var b='';
+    for(var i=0;i<list.length;i++){var h=list[i];
+      b+='<tr class="'+(h.strong?'strong':'')+'"><td>'+(h.strong?'<span class="star">★</span> ':'')+esc(h.code)+'</td>'
+        +'<td class="nm">'+esc(h.name)+'</td><td>'+esc(h.group)+'</td>'
+        +'<td><span class="tag '+(TCLS[h.label]||'t3')+'">'+esc(h.label)+'</span></td>'
+        +'<td>'+esc(h.price)+'</td>'+cnum(h.chg)+'</tr>';
+    }
+    return '<table><thead><tr><th>代碼</th><th>商品</th><th>族群</th><th>訊號</th><th>現價</th><th>漲幅%</th></tr></thead><tbody>'+b+'</tbody></table>';
+  }
+  var strong=hits.filter(function(h){return h.strong;}),other=hits.filter(function(h){return !h.strong;});
+  var html='';
+  if(strong.length)html+='<h3>★ 強勢族群觸發('+strong.length+')</h3>'+tbl(strong);
+  if(other.length)html+='<h3>其他觸發('+other.length+')</h3>'+tbl(other);
+  document.getElementById('body').innerHTML=html;
+}
+function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('zh-TW');}
+function poll(){
+  fetch('http://localhost:8888/signals.json',{cache:'no-store'}).then(function(r){return r.json();}).then(render)
+  .catch(function(){document.getElementById('stat').innerHTML='<span style="color:#e88">連不到橋接(bridge)。請先跑 一鍵_即時橋接.bat,並用 localhost 開這頁。</span>';});
+}
+setInterval(tick,1000);tick();
+poll();setInterval(poll,15000);
+</script></body></html>
