@@ -42,13 +42,13 @@ function render(j){
   // 分兩區:強勢族群、其他
   function tbl(list){
     var b='';
-    for(var i=0;i<list.length;i++){var h=list[i];
+    for(var i=0;i<list.length;i++){var h=list[i];var gi=GINFO[h.group]||{};
       b+='<tr class="'+(h.strong?'strong':'')+'"><td>'+(h.strong?'<span class="star">★</span> ':'')+esc(h.code)+'</td>'
         +'<td class="nm">'+esc(h.name)+'</td><td class="clk" onclick="event.stopPropagation();showG(\''+h.group+'\')">'+esc(h.group)+'</td>'
         +'<td><span class="tag '+(TCLS[h.label]||'t3')+'">'+esc(h.label)+'</span></td>'
-        +'<td>'+esc(h.price)+'</td>'+cnum(h.chg)+'</tr>';
+        +'<td>'+esc(h.price)+'</td>'+cnum(h.chg)+cnum(gi.c)+cnum(gi.d)+'<td>'+(gi.rc||'-')+'</td><td>'+(gi.rd||'-')+'</td></tr>';
     }
-    return '<table><thead><tr><th>代碼</th><th>商品</th><th>族群</th><th>訊號</th><th>現價</th><th>漲幅%</th></tr></thead><tbody>'+b+'</tbody></table>';
+    return '<table><thead><tr><th>代碼</th><th>商品</th><th>族群</th><th>訊號</th><th>現價</th><th>漲幅%</th><th>族群漲幅%</th><th>大戶差比</th><th>漲幅名</th><th>大戶差名</th></tr></thead><tbody>'+b+'</tbody></table>';
   }
   var strong=hits.filter(function(h){return h.strong;}),other=hits.filter(function(h){return !h.strong;});
   var html='';
@@ -65,7 +65,9 @@ function rcell(v){if(v==null)return '<td>-</td>';var c=v>0?'up':(v<0?'dn':'');re
 function countGroup(g){var mem=(META.members&&META.members[g])||[];var u=0,d=0,f=0;for(var i=0;i<mem.length;i++){var o=LASTP[mem[i][0]];if(!o||o.c==null)continue;if(o.c>0)u++;else if(o.c<0)d++;else f++;}return {u:u,d:d,f:f};}
 function _cntCell(g){var c=countGroup(g);return '<td style="white-space:nowrap"><span class="up">▲'+c.u+'</span> <span class="dn">▼'+c.d+'</span> <span style="color:#8fb0d0">平'+c.f+'</span></td>';}
 function ranktbl(arr,km,ko,h1,h2){var b='';for(var i=0;i<arr.length;i++){var g=arr[i];var bg=i<5?'background:#2a1416;':'';b+='<tr onclick="showG(\''+g.nm+'\')" style="cursor:pointer;'+bg+'"><td>'+(i+1)+'</td><td class="nm clk">'+(i<5?'<span class="star">★</span> ':'')+esc(g.nm)+'</td>'+rcell(g[km])+rcell(g[ko])+_cntCell(g.nm)+'</tr>';}return '<table><thead><tr><th>#</th><th>族群</th><th>'+h1+'</th><th>'+h2+'</th><th>漲跌平</th></tr></thead><tbody>'+b+'</tbody></table>';}
-function renderRanks(gd){if(!gd)return;var arr=[];for(var k in gd){arr.push({nm:k,c:gd[k].c,d:gd[k].d});}
+var GINFO={};
+function buildGInfo(gd){if(!gd)return;var m={},ks=[];for(var k in gd){m[k]={c:gd[k].c,d:gd[k].d,rc:null,rd:null};ks.push(k);}var byc=ks.filter(function(k){return m[k].c!=null;}).sort(function(a,b){return m[b].c-m[a].c;});byc.forEach(function(k,i){m[k].rc=i+1;});var byd=ks.filter(function(k){return m[k].d!=null;}).sort(function(a,b){return m[b].d-m[a].d;});byd.forEach(function(k,i){m[k].rd=i+1;});GINFO=m;}
+function renderRanks(gd){if(!gd)return;buildGInfo(gd);var arr=[];for(var k in gd){arr.push({nm:k,c:gd[k].c,d:gd[k].d});}
   var byc=arr.filter(function(x){return x.c!=null;}).sort(function(a,b){return b.c-a.c;}).slice(0,15);
   var byd=arr.filter(function(x){return x.d!=null;}).sort(function(a,b){return b.d-a.d;}).slice(0,15);
   var el=document.getElementById('ranks');if(!el)return;
