@@ -28,7 +28,7 @@ function esc(s){return (s==null?'':(''+s)).replace(/[<>&]/g,function(c){return {
 function cnum(v){if(v==null)return '<td>-</td>';var c=v>0?'up':(v<0?'dn':'');return '<td class="'+c+'">'+Number(v).toFixed(2)+'</td>';}
 function render(j){
   var hits=(j&&j.hits)||[];
-  document.getElementById('stat').innerHTML='資料日期 '+esc(j.date||'?')+' ‧ 更新 '+esc(j.t||'?')+' ‧ 觸發 <b>'+hits.length+'</b> 檔(★強勢族群 <b class="star">'+(j.strong||0)+'</b>)'+(j.err?' ‧ <span style="color:#e88">錯誤:'+esc(j.err)+'</span>':'');
+  document.getElementById('stat').innerHTML='資料日期 '+esc(j.date||'?')+' ‧ 更新 '+esc(j.t||'?')+' ‧ 觸發 <b>'+hits.length+'</b> 檔(★強勢族群 <b class="star">'+(j.strong||0)+'</b>)'+(j.err?' ‧ <span style="color:#e88">錯誤:'+esc(j.err)+'</span>':'')+(j.warn?'<br><span style="color:#ffb020;font-weight:bold">⚠ '+esc(j.warn)+'</span>':'');
   if(!hits.length){document.getElementById('body').innerHTML='<div class="empty">目前沒有個股觸發三買點<br><span style="font-size:12px">(盤中會即時跳出;若一直空白,確認橋接狀態與歷史檔日期)</span></div>';return;}
   // 分兩區:強勢族群、其他
   function tbl(list){
