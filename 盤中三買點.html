@@ -18,11 +18,19 @@ tr.strong .nm{color:#ffd24d;font-weight:bold}
 .up{color:#ff5d5d}.dn{color:#3ec77a}
 .star{color:#ffd24d}
 .empty{padding:30px;text-align:center;color:#8fb0d0}
+.clk{color:#6aa9e0;text-decoration:underline;cursor:pointer}
+#ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20}
+#dlg{max-width:640px;margin:40px auto;background:#111c26;border:1px solid #2a3a48;border-radius:10px;max-height:82vh;overflow:auto;padding:10px 14px;position:relative}
+.x{position:absolute;right:12px;top:6px;cursor:pointer;font-size:22px;color:#9fb8d0}
+#search input{padding:8px 10px;width:200px;border-radius:6px;border:1px solid #345;background:#0d1621;color:#e6edf3;font-size:15px}
+#search button{padding:8px 14px;margin-left:6px;border:0;border-radius:6px;background:#4da3ff;color:#fff;font-size:15px;cursor:pointer}
 </style></head><body>
 <header>盤中三買點派發（5分K收盤確認）　<span id="clock" style="font-weight:normal;font-size:14px"></span></header>
+<div id="search" style="padding:8px 16px;background:#0d1621;border-bottom:1px solid #223"><input id="qcode" placeholder="輸入股號或股名 (如 2330/台積電)" onkeydown="if(event.key==='Enter')qtv()"><button onclick="qtv()">查個股/族群</button></div>
 <div class="bar" id="stat">連線中…</div>
 <div class="wrap"><h3 style="margin:6px 4px">族群排名對照（★=漲幅/大戶差比 前5）</h3><div id="ranks" style="display:flex;gap:14px;flex-wrap:wrap"></div></div>
 <div class="wrap" id="body"><div class="empty">載入中…(請確認橋接 bridge 有跑、股價一年.csv 已更新)</div></div>
+<div id="ov" onclick="if(event.target.id=='ov')cl()"><div id="dlg"><span class="x" onclick="cl()">×</span><div id="dc"></div></div></div>
 <script>
 var TCLS={'回後買點':'t1','多頭買':'t2','ABC買':'t3'};
 function esc(s){return (s==null?'':(''+s)).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}
@@ -36,7 +44,7 @@ function render(j){
     var b='';
     for(var i=0;i<list.length;i++){var h=list[i];
       b+='<tr class="'+(h.strong?'strong':'')+'"><td>'+(h.strong?'<span class="star">★</span> ':'')+esc(h.code)+'</td>'
-        +'<td class="nm">'+esc(h.name)+'</td><td>'+esc(h.group)+'</td>'
+        +'<td class="nm">'+esc(h.name)+'</td><td class="clk" onclick="event.stopPropagation();showG(\''+h.group+'\')">'+esc(h.group)+'</td>'
         +'<td><span class="tag '+(TCLS[h.label]||'t3')+'">'+esc(h.label)+'</span></td>'
         +'<td>'+esc(h.price)+'</td>'+cnum(h.chg)+'</tr>';
     }
@@ -54,14 +62,25 @@ function poll(){
   .catch(function(){document.getElementById('stat').innerHTML='<span style="color:#e88">連不到橋接(bridge)。請先跑 一鍵_即時橋接.bat,並用 localhost 開這頁。</span>';});
 }
 function rcell(v){if(v==null)return '<td>-</td>';var c=v>0?'up':(v<0?'dn':'');return '<td class="'+c+'">'+Number(v).toFixed(2)+'</td>';}
-function ranktbl(arr,km,ko,h1,h2){var b='';for(var i=0;i<arr.length;i++){var g=arr[i];var st=i<5?' style="background:#2a1416"':'';b+='<tr'+st+'><td>'+(i+1)+'</td><td class="nm">'+(i<5?'<span class="star">★</span> ':'')+esc(g.nm)+'</td>'+rcell(g[km])+rcell(g[ko])+'</tr>';}return '<table><thead><tr><th>#</th><th>族群</th><th>'+h1+'</th><th>'+h2+'</th></tr></thead><tbody>'+b+'</tbody></table>';}
+function ranktbl(arr,km,ko,h1,h2){var b='';for(var i=0;i<arr.length;i++){var g=arr[i];var st=i<5?' style="background:#2a1416"':'';b+='<tr'+st+' onclick="showG(\''+g.nm+'\')" style="cursor:pointer"><td>'+(i+1)+'</td><td class="nm clk">'+(i<5?'<span class="star">★</span> ':'')+esc(g.nm)+'</td>'+rcell(g[km])+rcell(g[ko])+'</tr>';}return '<table><thead><tr><th>#</th><th>族群</th><th>'+h1+'</th><th>'+h2+'</th></tr></thead><tbody>'+b+'</tbody></table>';}
 function renderRanks(gd){if(!gd)return;var arr=[];for(var k in gd){arr.push({nm:k,c:gd[k].c,d:gd[k].d});}
   var byc=arr.filter(function(x){return x.c!=null;}).sort(function(a,b){return b.c-a.c;}).slice(0,15);
   var byd=arr.filter(function(x){return x.d!=null;}).sort(function(a,b){return b.d-a.d;}).slice(0,15);
   var el=document.getElementById('ranks');if(!el)return;
   el.innerHTML='<div style="flex:1;min-width:300px"><h3>族群漲幅排名</h3>'+ranktbl(byc,'c','d','漲幅%','大戶差比')+'</div>'+
                '<div style="flex:1;min-width:300px"><h3>族群大戶差排名</h3>'+ranktbl(byd,'d','c','大戶差比','漲幅%')+'</div>';}
-function pollRank(){fetch('http://localhost:8888/prices.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){renderRanks(j&&j.groups);}).catch(function(){});}
+function pollRank(){fetch('http://localhost:8888/prices.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){LASTP=(j&&j.prices)||LASTP;renderRanks(j&&j.groups);if(_openG&&document.getElementById('ov').style.display=='block')patchPrices();}).catch(function(){});}
+var META={members:{},c2g:{},c2n:{}};var LASTP={};var _openG='';
+function fetchMeta(){fetch('http://localhost:8888/meta.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(m){META=m||META;}).catch(function(){});}
+function openTV(code){window.open('https://www.tradingview.com/chart/?symbol=TWSE:'+encodeURIComponent(code),'_blank');}
+function showG(g){_openG=g;var mem=(META.members&&META.members[g])||[];var b='';for(var i=0;i<mem.length;i++){var c=mem[i][0];b+='<tr onclick="openTV(\''+c+'\')" style="cursor:pointer"><td>'+(i+1)+'</td><td style="text-align:left">'+esc(c)+' '+esc(mem[i][1])+'</td><td class="lpx" data-lc="'+c+'">-</td><td class="lchg" data-lc="'+c+'">-</td></tr>';}
+document.getElementById('dc').innerHTML='<h3 style="color:#cfe0f0">'+esc(g)+' ('+mem.length+'檔) <span id="gcount" style="font-size:13px;font-weight:normal"></span></h3><div style="color:#8fb0d0;font-size:12px;padding:2px 4px">點個股開 TradingView ‧ 紅漲綠跌</div><table><thead><tr><th>#</th><th>個股</th><th>現價</th><th>漲幅%</th></tr></thead><tbody>'+b+'</tbody></table>';
+document.getElementById('ov').style.display='block';patchPrices();}
+function patchPrices(){var dc=document.getElementById('dc');if(!dc)return;dc.querySelectorAll('td.lpx[data-lc]').forEach(function(e){var o=LASTP[e.getAttribute('data-lc')];if(o&&o.p!=null)e.textContent=Number(o.p).toFixed(2);});dc.querySelectorAll('td.lchg[data-lc]').forEach(function(e){var o=LASTP[e.getAttribute('data-lc')];if(o&&o.c!=null){e.textContent=Number(o.c).toFixed(2);e.className='lchg '+(o.c>0?'up':(o.c<0?'dn':''));}});updateGCount();}
+function updateGCount(){var el=document.getElementById('gcount');if(!el)return;var cs=document.querySelectorAll('#dc td.lchg');var u=0,d=0,f=0,n=0;cs.forEach(function(c){var t=(c.textContent||'').trim();if(t===''||t==='-')return;var v=parseFloat(t);if(isNaN(v))return;n++;if(v>0)u++;else if(v<0)d++;else f++;});el.innerHTML=n?('<span class="up">▲'+u+'</span> <span class="dn">▼'+d+'</span> <span style="color:#8fb0d0">平'+f+'</span>'):'';}
+function cl(){document.getElementById('ov').style.display='none';_openG='';}
+function qtv(){var v=document.getElementById('qcode').value.trim();if(!v)return;var g=META.c2g[v];if(!g){for(var c in META.c2n){if((META.c2n[c]||'').indexOf(v)>=0){g=META.c2g[c];break;}}}if(!g){document.getElementById('dc').innerHTML='<h3>'+esc(v)+'</h3><div style="padding:18px;color:#cfe0f0">查無此股號/股名的族群</div>';document.getElementById('ov').style.display='block';return;}showG(g);}
+fetchMeta();
 pollRank();setInterval(pollRank,5000);
 setInterval(tick,1000);tick();
 poll();setInterval(poll,15000);
