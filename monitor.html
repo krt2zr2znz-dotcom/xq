@@ -118,4 +118,4 @@ function upd(prices,intra){
 function tick(){Promise.all([fetch('prices.json').then(function(r){return r.json();}).catch(function(){return null;}),
   fetch('intraday.json').then(function(r){return r.json();}).catch(function(){return null;})]).then(function(a){LAST=a;upd(a[0],a[1]);});}
 tick(); setInterval(tick,5000);
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-02 14:43</div>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-02 18:06</div>
