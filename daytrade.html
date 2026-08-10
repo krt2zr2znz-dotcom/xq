@@ -31,7 +31,7 @@ td.clk{cursor:pointer}td.clk:hover{text-decoration:underline;color:#1a5fb4}
 table.gtb{margin-top:4px}table.gtb td.code{cursor:pointer}table.gtb td.code:hover{text-decoration:underline}
 </style></head><body>
 <h1>當沖日報 · 隔日沖分點放空觀察名單</h1><div style="background:#123d1e;color:#b7f0c8;padding:6px 12px;margin:8px 0;border-radius:6px;font-size:12px">✓ 分點/當沖 資料已更新至 <b>2026-08-10</b>（最新交易日）</div>
-<div class="meta">交易日 2026-08-10 ｜ 產生於 2026-08-11 03:00 ｜ 明日開盤放空候選（近漲停+隔日沖分點買超）</div>
+<div class="meta">交易日 2026-08-10 ｜ 產生於 2026-08-11 03:30 ｜ 明日開盤放空候選（近漲停+隔日沖分點買超）</div>
 <div style="margin:0 0 14px"><a href="daytrade_review.html" style="display:inline-block;background:#2E5496;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600">📅 回顧過去一個月 · 開高走低驗證 →</a></div>
 <div class="rules">
 <b>盤中進場規則（明早）：</b>開高 <b>≥+3%（優先 4~6%）</b>才空；<span class="k">開平/開低、開盤一字鎖漲停 → 不做</span>。
@@ -154,4 +154,4 @@ function _sortDT(th){var t=th.closest('table'),tb=t.tBodies[0],idx=[].indexOf.ca
 document.querySelectorAll('table.dt thead th').forEach(function(th){th.style.cursor='pointer';th.title='點欄位排序';th.onclick=function(){_sortDT(th);};});
 var _tip=document.createElement('div');_tip.id='bktip';document.body.appendChild(_tip);
 document.addEventListener('click',function(e){var bk=e.target.closest?e.target.closest('.bk'):null;if(bk){var nm=bk.getAttribute('data-nm'),buy=bk.getAttribute('data-buy'),bp=parseFloat(bk.getAttribute('data-bp'))||0;_tip.innerHTML='<span class="nm">'+nm+'</span><br>買超 <b>'+buy+'</b> 張 ｜ 買均價 <b>'+(bp>0?bp.toFixed(2):'—')+'</b>';_tip.style.display='block';var r=bk.getBoundingClientRect(),tw=Math.min(210,window.innerWidth-12);var tx=Math.min(r.left,window.innerWidth-tw-6),ty=r.bottom+6;if(ty>window.innerHeight-52)ty=r.top-50;_tip.style.left=Math.max(6,tx)+'px';_tip.style.top=Math.max(6,ty)+'px';e.stopPropagation();return;}_tip.style.display='none';});
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-11 03:00</div></body></html>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-11 03:30</div></body></html>
