@@ -31,4 +31,4 @@ function render(j,isLive){
 }
 function live(){fetch('http://localhost:8889/coday.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){render(j,true);}).catch(function(e){if(window.STATIC){render(window.STATIC,false);}else{var b=document.getElementById('livebadge');if(b){b.innerHTML='⚠ 即時server未連(請開 當沖即時.py)';b.style.background='#8b3a3a';}}});}
 setInterval(live,20000);live();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-15 18:05</div></body></html>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-15 20:05</div></body></html>
