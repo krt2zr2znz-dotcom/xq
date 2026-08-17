@@ -58,6 +58,6 @@ function preset(p){
 function sortBy(k){if(sortKey==k)sortDir*=-1;else{sortKey=k;sortDir=-1}render();}
 window.onload=function(){
  document.querySelectorAll('input').forEach(function(el){el.addEventListener('input',render)});
- preset('5.1');
+ render();
 };
 </script></div></html>
