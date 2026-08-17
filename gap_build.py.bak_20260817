@@ -25,12 +25,11 @@ for fp in [os.path.join(HD,'全市場1分K_A.csv'),os.path.join(HD,'全市場1�
             d=first.setdefault(p[0],[hi,lo])
             if hi>d[0]: d[0]=hi
             if lo<d[1]: d[1]=lo
-g=px.groupby('代碼')
-_ma=g['收盤'].transform(lambda s:s.rolling(20).mean()); _sd=g['收盤'].transform(lambda s:s.rolling(20).std(ddof=0))
-px['布上']=_ma+2*_sd
-_lo9=g['最低'].transform(lambda s:s.rolling(9).min()); _hi9=g['最高'].transform(lambda s:s.rolling(9).max())
-_rsv=(px['收盤']-_lo9)/(_hi9-_lo9)*100
-px['K']=_rsv.groupby(px['代碼']).transform(lambda s:s.ewm(alpha=1/3,adjust=False).mean())
+def feats(d):
+    ma=d['收盤'].rolling(20).mean(); sd=d['收盤'].rolling(20).std(ddof=0); d['布上']=ma+2*sd
+    low9=d['最低'].rolling(9).min(); high9=d['最高'].rolling(9).max()
+    d['K']=((d['收盤']-low9)/(high9-low9)*100).ewm(alpha=1/3,adjust=False).mean(); return d
+px=px.groupby('代碼',group_keys=False).apply(feats)
 r=px[px['日期']==DATE].copy()
 r['h5']=r['代碼'].map(lambda c:first.get(c,[None,None])[0]); r['l5']=r['代碼'].map(lambda c:first.get(c,[None,None])[1])
 r['R']=r['h5']-r['l5']; r['gap']=r['R']/r['開盤']*100
