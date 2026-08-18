@@ -123,7 +123,7 @@ function boomcell(sid,nd){ // 隔日 09:00 第一根5分K量 ÷ 當日5分K均�
 var BROWS=[];
 function rowhtml(r){
   var sid=r[0],nm=r[1],cl=r[2],chg=r[3],vol=r[4],liq=r[5],bl=r[6],nd=r[7],twoxL=r[8],dz=r[10],totp=r[11],dump=r[12],nd2=r[13],e1=r[14]||0,op=r[15]||0;
-  var _pc=cl/(1+chg/100),_bs=_pc*1.1,_tk=_bs<10?0.01:_bs<50?0.05:_bs<100?0.1:_bs<500?0.5:_bs<1000?1:5,lim=Math.round(_bs/_tk)*_tk;
+  var _pc=cl/(1+chg/100),_bs=_pc*1.1,_tk=_bs<10?0.01:_bs<50?0.05:_bs<100?0.1:_bs<500?0.5:_bs<1000?1:5,lim=Math.floor(_bs/_tk+1e-9)*_tk;
   var eq=(op>0&&Math.abs(op-cl)<0.001),eqs=eq?' style="color:#ff5d5d;font-weight:700"':'';
   var g17=0;for(var _gi=0;_gi<bl.length;_gi++){var _bp=bl[_gi][3];if(lim>0&&_bp>0&&(lim-_bp)/lim*100<=0.5)g17+=bl[_gi][2];}
   var x2p=vol>0?2*(g17+e1)/vol*100:0;
@@ -304,4 +304,4 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeK();});
   render(DATES.length?DATES[0]:'ALL');
 })();
 </script>
-<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-17 22:33</div></body></html>
+<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-18 01:05</div></body></html>
