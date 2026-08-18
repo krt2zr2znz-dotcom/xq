@@ -285,11 +285,12 @@ function grpSpark(gi,w,h){
   for(var di=0;di<ND;di++){var a='';for(var i=B[di];i<B[di+1];i++){if(A[i]!=null)a+=X(i).toFixed(1)+','+Y(A[i]).toFixed(1)+' ';}if(a)svg+='<polyline points="'+a+'" fill="none" stroke="#fff" stroke-width="1.1"/>';}
   return svg+'</svg>';
 }
+function grpChgLive(gi){var g=DB.G[gi];if(!g||!g.m)return -999;var s=0,n=0;for(var i=0;i<g.m.length;i++){var v=chgOf(g.m[i]);if(v!=null&&!isNaN(v)){s+=v;n++;}}return n?s/n:((DB.GRP&&DB.GRP[gi])?(DB.GRP[gi].chg||0):0);}
 function renderGroups(){
-  grid.innerHTML=''; hint.textContent='全部族群 · 依當天「等權漲跌%」排序 · 點族群進成員';
+  grid.innerHTML=''; hint.textContent='全部族群 · 依當天「等權漲跌%」(即時重算) 排序 · 點族群進成員';
   var arr=[]; for(var gi=0;gi<DB.G.length;gi++) arr.push(gi);
-  arr.sort(function(a,b){return ((DB.GRP&&DB.GRP[b]?DB.GRP[b].chg:-999))-((DB.GRP&&DB.GRP[a]?DB.GRP[a].chg:-999));});
-  arr.forEach(function(gi){var g=DB.G[gi],ch=(DB.GRP&&DB.GRP[gi]?DB.GRP[gi].chg:0)||0;
+  arr.sort(function(a,b){return grpChgLive(b)-grpChgLive(a);});
+  arr.forEach(function(gi){var g=DB.G[gi],ch=grpChgLive(gi)||0;
     var d=document.createElement('div'); d.className='cell'; d.setAttribute('data-gi',gi);
     d.innerHTML='<div class="hd"><span class="nm">'+g.g+' <span class="cd">'+g.m.length+'檔</span></span><span class="pc '+color(ch)+'"><b style="font-size:14px">'+(ch>0?'+':'')+ch.toFixed(2)+'%</b></span></div>'+grpSpark(gi,330,120);
     grid.appendChild(d);
