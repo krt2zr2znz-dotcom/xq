@@ -5,18 +5,18 @@ th,td{padding:6px 9px;border-bottom:1px solid #263341;text-align:right;white-spa
 td.l,th.l{text-align:left} .pos{color:#ff5d5d} .mut{color:#8a9bab} .sig{color:#ffb84d;font-weight:bold} .flow{color:#ff8a8a;font-weight:bold}
 .box{background:#16202b;border:1px solid #263341;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.6}</style>
 <div style="max-width:1000px;margin:0 auto">
-<a href="交易日報v2.html">◀ 回日報</a> &nbsp; <b style="font-size:16px">出貨型態掃描</b> <span class="mut" style="font-size:12px">(資料日 2026-08-18)</span>
+<a href="交易日報v2.html">◀ 回日報</a> &nbsp; <b style="font-size:16px">出貨型態掃描</b> <span class="mut" style="font-size:12px">(資料日 2026-08-20)</span>
 <div class="box">依隔日沖教材「主力出貨訊號」:<b class="sig">漲停量縮</b>(鎖漲停但量縮=追價意願不足、隔日沖隔日出貨)+ <b class="sig">高檔吊人線</b>(大漲後小實體長下影爆量=盤中被大量倒貨、常成波段高點)。<b class="flow">★隔沖分點在買</b>=近日有隔日沖券商買超,出貨機率更高。<span class="mut">偏空觀察,勿盲追;隔日開高不回測直接追高最易被套。</span></div>
 <table><thead><tr><th class="l">訊號</th><th class="l">代碼 名稱</th><th>漲跌%</th><th>收盤</th><th>量比</th><th>近20日漲%</th><th>隔沖分點</th></tr></thead>
 <tbody id="tb"></tbody></table>
-<div class="mut" style="font-size:11px;margin-top:8px">🕒 2026-08-19 06:23 · 純日K量價型態掃描,搭配你的 分點勝率/當沖日報 一起看更準。</div>
+<div class="mut" style="font-size:11px;margin-top:8px">🕒 2026-08-20 17:03 · 純日K量價型態掃描,搭配你的 分點勝率/當沖日報 一起看更準。</div>
 </div>
 <script>
-var R=[{"c": "3498", "n": "陽程", "chg": 9.78, "close": 174.0, "volx": 1.6, "dn": 5.0, "body": 15.5, "ret20": 64.9, "sig": "漲停量縮", "flow": true}, {"c": "2491", "n": "吉祥全", "chg": 3.7, "close": 39.2, "volx": 5.1, "dn": 2.05, "body": 0.8, "ret20": 21.2, "sig": "高檔吊人線", "flow": false}, {"c": "4304", "n": "勝昱", "chg": 9.92, "close": 19.4, "volx": 0.6, "dn": 0.0, "body": 0.0, "ret20": 7.8, "sig": "漲停量縮", "flow": true}, {"c": "3666", "n": "光耀", "chg": -0.4, "close": 25.05, "volx": 1.8, "dn": 0.3, "body": 0.05, "ret20": 2.7, "sig": "高檔吊人線", "flow": false}, {"c": "2254", "n": "巨鎧精密-創", "chg": 0.85, "close": 59.3, "volx": 1.7, "dn": 0.9, "body": 0.1, "ret20": -0.3, "sig": "高檔吊人線", "flow": false}, {"c": "2412", "n": "中華電", "chg": 0.74, "close": 137.0, "volx": 1.6, "dn": 1.0, "body": 0.5, "ret20": -1.4, "sig": "高檔吊人線", "flow": false}, {"c": "4972", "n": "湯石照明", "chg": -0.3, "close": 16.45, "volx": 2.7, "dn": 0.15, "body": 0.05, "ret20": -2.7, "sig": "高檔吊人線", "flow": false}];
+var R=[{"c": "6225", "n": "天瀚", "chg": 9.89, "close": 58.9, "volx": 0.7, "dn": 2.1, "body": 0.3, "ret20": 119.0, "sig": "漲停量縮", "flow": true}, {"c": "3508", "n": "位速", "chg": 9.89, "close": 25.0, "volx": 4.6, "dn": 1.15, "body": 0.25, "ret20": 61.3, "sig": "高檔吊人線", "flow": true}, {"c": "6240", "n": "松崗", "chg": 1.69, "close": 21.1, "volx": 2.4, "dn": 0.65, "body": 0.05, "ret20": 14.1, "sig": "高檔吊人線", "flow": false}, {"c": "5284", "n": "jpp-KY", "chg": 3.41, "close": 318.0, "volx": 1.6, "dn": 12.5, "body": 2.0, "ret20": 9.1, "sig": "高檔吊人線", "flow": false}, {"c": "8422", "n": "可寧衛", "chg": 1.5, "close": 27.1, "volx": 1.4, "dn": 0.5, "body": 0.1, "ret20": 4.0, "sig": "高檔吊人線", "flow": false}, {"c": "9951", "n": "", "chg": 0.0, "close": 53.9, "volx": 1.4, "dn": 0.4, "body": 0.1, "ret20": 2.5, "sig": "高檔吊人線", "flow": false}, {"c": "6160", "n": "欣技", "chg": 9.68, "close": 15.3, "volx": 9.4, "dn": 0.75, "body": 0.05, "ret20": -0.3, "sig": "高檔吊人線", "flow": true}];
 document.getElementById('tb').innerHTML=R.map(function(r){
   return '<tr><td class="l sig">'+r.sig+'</td><td class="l"><b>'+r.c+'</b> '+(r.n||'')+'</td>'
     +'<td class="'+(r.chg>=0?'pos':'')+'">'+(r.chg>0?'+':'')+r.chg+'%</td><td>'+r.close+'</td>'
     +'<td class="mut">'+(r.volx==null?'—':r.volx+'x')+'</td><td class="'+(r.ret20>=0?'pos':'')+'">'+(r.ret20>0?'+':'')+r.ret20+'%</td>'
     +'<td>'+(r.flow?'<span class="flow">★在買</span>':'—')+'</td></tr>';
 }).join('')||'<tr><td colspan="7" class="mut" style="padding:12px">今日無出貨型態訊號</td></tr>';
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-19 06:23</div>
+</script>
