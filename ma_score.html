@@ -21,7 +21,7 @@ td.code{font-weight:700;color:#1F3864;cursor:pointer}td.code:hover{text-decorati
 tbody tr:hover{background:#eef4ff}
 .rk{color:#8a93a3;font-weight:700}
 .chip{background:#eaf1ff;color:#1a5fb4;border-radius:10px;padding:1px 7px;font-size:11px;cursor:pointer}
-</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style></head><body>
+</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style><style id="vlockcss">tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body>
 <h1>📈 均線分數排行 · 位置強弱</h1>
 <div class="meta">資料日 2026-08-11 ｜ 產生於 2026-08-12 04:16 ｜ 分數越高=站得越穩、位置越強（僅描述位置強弱，非買賣建議）</div>
 <div class="rules">
@@ -74,7 +74,7 @@ function renderG(){var h='';for(var i=0;i<GG.length;i++){var g=GG[i];
     +'<td>'+g.tc+' '+g.tn+' ('+g.ts.toFixed(1)+')</td></tr>';}
   document.getElementById('gb').innerHTML=h;}
 render();renderG();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 12:57</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 13:52</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
@@ -97,7 +97,7 @@ function aug(){
    tr.insertBefore(td,tr.firstElementChild);}
  }
 }
-function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');trs[i].style.display=(!VONLY||VSEL[c])?'':'none';}}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
 function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
  var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
  b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
