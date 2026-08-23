@@ -10,7 +10,7 @@ tbody tr:hover{background:#1e2c3a}tbody tr:nth-child(even){background:#131c26}
 #ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9}
 #dlg{max-width:560px;margin:6vh auto;background:#16202b;border-radius:10px;max-height:86vh;overflow:auto;position:relative;text-align:center}
 #dlg h3{background:#1F4E78;margin:0;padding:12px;font-size:17px;position:sticky;top:0}.x{position:absolute;right:16px;top:9px;color:#fff;font-size:22px;cursor:pointer}
-</style></head><body><a id="lhbtn" href="#" title="即時價需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
+</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style></head><body><a id="lhbtn" href="#" title="即時價需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
 <header>個股期族群排名 2026-08-02 15:35</header>
 <div class="one"><div class="sub">依「個股期近月漲幅」排序 ‧ 點族群看成員(依即時漲跌排序)‧ 紅漲綠跌 ‧ 現價需用 localhost 開 ‧ 來源:整合RTD/個股期</div>
 <table><thead><tr><th>排名</th><th>族群</th><th>個股期漲幅%</th><th>成員漲跌平</th><th>有期檔數</th></tr></thead><tbody></tbody></table></div>
@@ -25,4 +25,40 @@ function renderPop(i){var g=G[i];var a=g.mem.slice().sort(function(x,y){return g
 function showG(i){_open=i;renderPop(i);document.getElementById('ov').style.display='block';}
 function close_(){_open=-1;document.getElementById('ov').style.display='none';}
 function refresh(){fetch('http://localhost:8888/prices.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){LP=(j&&j.prices)||{};paint();if(_open>=0)renderPop(_open);}).catch(function(){});}
-window.addEventListener('load',refresh);setInterval(refresh,5000);</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 01:11</div></body></html>
+window.addEventListener('load',refresh);setInterval(refresh,5000);</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 12:03</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');if(h==0){e.textContent='V';e.style.width='30px';}e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');trs[i].style.display=(!VONLY||VSEL[c])?'':'none';}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body></html>

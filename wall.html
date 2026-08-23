@@ -41,7 +41,7 @@ select{background:var(--card);color:var(--tx);border:1px solid var(--line);borde
 #ov svg{width:100%;height:320px;display:block}
 #ov .x{background:#37475a;color:#fff;border:none;border-radius:6px;padding:6px 12px;cursor:pointer}
 #ov a{font-size:13px;text-decoration:none;background:var(--blu);color:#fff;border-radius:6px;padding:6px 12px}
-</style></head><body>
+</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style></head><body>
 <header>族群縮圖牆 <span style="color:var(--mut);font-weight:normal;font-size:12px">(仿 XQ 多股同列 · 依漲跌排序 · 點格放大)</span></header>
 <div class="top">
   <a class="a-back" href="report2.html">◀ 回日報</a>
@@ -400,4 +400,40 @@ function stopPoll(){if(timer){clearInterval(timer);timer=null;}}
   if(mktOpen()){MODE='min';document.getElementById('mMin').classList.add('on');document.getElementById('mDay').classList.remove('on');render();startPoll();}
   else{MODE='day';render();setStatus();}
 })();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 11:04</div></body></html>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 12:03</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');if(h==0){e.textContent='V';e.style.width='30px';}e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');trs[i].style.display=(!VONLY||VSEL[c])?'':'none';}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body></html>

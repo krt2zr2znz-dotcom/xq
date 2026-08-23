@@ -11,8 +11,44 @@ header{background:#1F4E78;color:#fff;padding:16px;font-size:20px;font-weight:bol
 .num{display:inline-block;min-width:26px;text-align:center;background:#2E5BBB;color:#fff;border-radius:6px;padding:2px 6px;margin-right:10px;font-size:14px}
 .foot{text-align:center;color:#7b8a99;font-size:12px;padding:14px}
 @media(max-width:520px){.wrap{grid-template-columns:1fr}}
-</style></head><body><a id="lhbtn" href="#" title="盤中即時訊號需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
+</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style></head><body><a id="lhbtn" href="#" title="盤中即時訊號需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
 <header>我的看盤目錄</header>
 <div class="wrap"><a class="card sp" href="index.html"><div class="t">交易日報</div><div class="s">族群排名 / 型態 / 每日驗證 / 明日關注</div></a><a class="card sp" href="futures.html"><div class="t">個股期族群</div><div class="s">個股期近月漲幅 → 族群排名 + 點族群看成員</div></a><a class="card sp" href="warrant.html"><div class="t">權證多空方向</div><div class="s">認購/認售 → 看多看空 + 綜合判斷 + 族群排名</div></a><a class="card" href="target1.html"><div class="t"><span class="num">01</span>神下影</div><div class="s">清單1 ‧ 12 檔</div></a><a class="card" href="target2.html"><div class="t"><span class="num">02</span>黑飛舞</div><div class="s">清單2 ‧ 1 檔</div></a><a class="card" href="target3.html"><div class="t"><span class="num">03</span>開布林</div><div class="s">清單3 ‧ 28 檔</div></a><a class="card" href="target4.html"><div class="t"><span class="num">04</span>破底翻</div><div class="s">清單4 ‧ 17 檔</div></a><a class="card" href="target5.html"><div class="t"><span class="num">05</span>0703 黑飛舞</div><div class="s">清單5 ‧ 3 檔</div></a><a class="card" href="target6.html"><div class="t"><span class="num">06</span>0703 破底翻</div><div class="s">清單6 ‧ 19 檔</div></a><a class="card" href="target7.html"><div class="t"><span class="num">07</span>日三買點</div><div class="s">清單7 ‧ 70 檔</div></a><a class="card" href="target8.html"><div class="t"><span class="num">08</span>周三買點</div><div class="s">清單8 ‧ 32 檔</div></a><a class="card" href="target9.html"><div class="t"><span class="num">09</span>日周共振</div><div class="s">清單9 ‧ 10 檔</div></a><a class="card" href="target10.html"><div class="t"><span class="num">10</span>Wei自選股</div><div class="s">清單10 ‧ 3 檔</div></a></div>
 <div class="foot">點卡片開該頁 ‧ 每頁含即時價 + 點個股看 TradingView 圖 ‧ 更新:2026-07-09 22:03</div>
-<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 01:11</div></body></html>
+<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 12:03</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');if(h==0){e.textContent='V';e.style.width='30px';}e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');trs[i].style.display=(!VONLY||VSEL[c])?'':'none';}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body></html>
