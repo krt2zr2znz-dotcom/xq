@@ -1,4 +1,4 @@
-<style id="vlockcss">tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><!doctype html><meta charset="utf-8"><title>分點個股勝率查詢</title>
+<style id="vlockcss">tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><!doctype html><meta charset="utf-8"><title>分點個股勝率查詢</title>
 <style>
 body{background:#0f1720;color:#c9d5e1;font-family:system-ui,"Microsoft JhengHei";margin:16px;max-width:1180px}
 h1{font-size:19px}.note{color:#8a9bab;font-size:12px;margin:6px 0 12px;line-height:1.6}
@@ -38,7 +38,7 @@ var th='<table><tr><th>分點</th><th>個股</th><th>買次</th><th>買勝20</th
 th+=all.slice(0,40).map(function(r){return '<tr><td>'+r.bn+'</td><td>'+r.s+' '+r.sn+'</td><td>'+r.n+'</td><td><span class="hi">'+r.w20+'%</span></td><td>'+r.sc+'</td><td><span class="sg">'+r.sw20+'%</span></td><td>'+(r.r60>0?'+':'')+r.r60+'%</td><td>'+dcell(r.dump)+'</td></tr>';}).join('')+'</table>';
 document.getElementById('top').innerHTML=th;
 (function(){var p=new URLSearchParams(location.search).get('code')||decodeURIComponent(location.hash.replace('#',''));if(p){var q=document.getElementById('q');q.value=p;go();q.scrollIntoView();}})();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 13:52</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-24 20:24</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
@@ -51,7 +51,7 @@ function aug(){
   var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
   t.setAttribute('data-vdone','1');
   var hrs=t.querySelectorAll('thead tr');
-  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');if(h==0){e.textContent='V';e.style.width='30px';}e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
   var trs=t.querySelectorAll('tbody tr');
   for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
    if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];

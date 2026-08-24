@@ -1,4 +1,4 @@
-<style id="vlockcss">tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:16px;height:16px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><!doctype html><meta charset="utf-8"><title>盤中監控 · 壓力支撐</title>
+<style id="vlockcss">tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style><style id="stickyfix">table{overflow:visible !important}thead th{position:-webkit-sticky !important;position:sticky !important;top:0 !important;z-index:30 !important}</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}</style><!doctype html><meta charset="utf-8"><title>盤中監控 · 壓力支撐</title>
 <style>body{background:#0e1621;color:#c9d5e1;font-family:"Microsoft JhengHei",Arial,sans-serif;margin:0;padding:12px}
 a{color:#4da3ff;text-decoration:none}
 table{border-collapse:collapse;width:100%;font-size:13px} th,td{padding:6px 8px;border-bottom:1px solid #263341;text-align:right;white-space:nowrap}
@@ -124,7 +124,7 @@ function tick(){var now=Date.now();var needI=(now-_INTRAT>25000);
   if(needI){jobs.push(fetch('intraday.json',{cache:'no-store'}).then(function(r){return r.json();}).catch(function(){return null;}));}
   Promise.all(jobs).then(function(a){if(needI&&a[1]){_INTRA=a[1];_INTRAT=now;}LAST=[a[0],_INTRA];upd((a[0]&&a[0].prices)||null,_INTRA);});}
 tick(); setInterval(tick,5000);
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-23 13:52</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-24 20:24</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
@@ -137,7 +137,7 @@ function aug(){
   var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
   t.setAttribute('data-vdone','1');
   var hrs=t.querySelectorAll('thead tr');
-  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');if(h==0){e.textContent='V';e.style.width='30px';}e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
   var trs=t.querySelectorAll('tbody tr');
   for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
    if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
