@@ -124,7 +124,7 @@ function tick(){var now=Date.now();var needI=(now-_INTRAT>25000);
   if(needI){jobs.push(fetch('intraday.json',{cache:'no-store'}).then(function(r){return r.json();}).catch(function(){return null;}));}
   Promise.all(jobs).then(function(a){if(needI&&a[1]){_INTRA=a[1];_INTRAT=now;}LAST=[a[0],_INTRA];upd((a[0]&&a[0].prices)||null,_INTRA);});}
 tick(); setInterval(tick,5000);
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-25 03:18</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-25 18:57</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
