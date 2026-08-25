@@ -35,6 +35,7 @@ function pass(s){
 function lv(s){ if(s.R==null)return null; var up=s.px*1.1,dn=s.px*0.9;
  return {P:[1,2,3].map(function(n){return Math.min(s.px+n*s.R,up)}),S:[1,2,3].map(function(n){return Math.max(s.px-n*s.R,dn)})};}
 function f(v){return v==null?'-':v.toFixed(2)}
+function pct(v,base){if(v==null||base==null||base==0)return '';var d=(v/base-1)*100;return ' <span style=color:#8aa1bd;font-size:11px>('+(d>=0?'+':'')+d.toFixed(1)+'%)</span>';}
 var sortKey='gap',sortDir=-1;
 function keyval(s,k){
  if(k=='p1'||k=='p2'||k=='p3'){var L=lv(s);return L?L.P[{p1:0,p2:1,p3:2}[k]]:null;}
@@ -52,8 +53,8 @@ function render(){
      '<td class="n '+(s.chg>0?'up':'dn')+'">'+(s.chg>0?'+':'')+s.chg.toFixed(2)+'</td>'+'<td class="n">'+(s.vol!=null?s.vol.toLocaleString():'-')+'</td>'+
      '<td class="n">'+s.k.toFixed(1)+'</td><td class="n hl">'+(s.gap!=null?s.gap.toFixed(2):'-')+'</td>'+
      '<td class="n">'+f(s.h5)+'</td><td class="n">'+f(s.l5)+'</td><td class="n hl">'+f(s.R)+'</td>'+
-     '<td class="n press">'+f(P[0])+'</td><td class="n press">'+f(P[1])+'</td><td class="n press">'+f(P[2])+'</td>'+
-     '<td class="n supp">'+f(S[0])+'</td><td class="n supp">'+f(S[1])+'</td><td class="n supp">'+f(S[2])+'</td></tr>';
+     '<td class="n press">'+f(P[0])+pct(P[0],s.px)+'</td><td class="n press">'+f(P[1])+pct(P[1],s.px)+'</td><td class="n press">'+f(P[2])+pct(P[2],s.px)+'</td>'+
+     '<td class="n supp">'+f(S[0])+pct(S[0],s.px)+'</td><td class="n supp">'+f(S[1])+pct(S[1],s.px)+'</td><td class="n supp">'+f(S[2])+pct(S[2],s.px)+'</td></tr>';
  }
  document.getElementById('tb').innerHTML=h||'<tr><td colspan=17 style="text-align:center;color:#8aa1bd;padding:14px">— 無符合,放寬條件 —</td></tr>';
  document.getElementById('cnt').textContent=rows.length;
