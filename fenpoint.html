@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分點明細查詢 · 單股前30大分點買賣</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--hd:#1f4e78;--hd2:#2e6ca4;--line:#e2e6ec;--red:#c0392b;--green:#1b8f4d;--ink:#222;--sub:#667;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft JhengHei","Segoe UI",system-ui,Arial,sans-serif;font-size:14px}
+.wrap{max-width:1180px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:0 0 2px}
+.sub{color:var(--sub);font-size:12px;margin-bottom:12px}
+.bar{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:3px}
+.fld label{font-size:11px;color:var(--sub)}
+.fld input{border:1px solid #cbd3dd;border-radius:7px;padding:7px 9px;font-size:14px;font-family:inherit}
+#code{width:150px;font-weight:700}
+.btn{background:var(--hd);color:#fff;border:0;border-radius:7px;padding:8px 16px;font-size:14px;cursor:pointer;font-family:inherit}
+.btn:hover{background:var(--hd2)}
+.quick{display:flex;gap:6px;flex-wrap:wrap}
+.quick button{background:#eef2f7;color:#334;border:1px solid var(--line);border-radius:14px;padding:4px 11px;font-size:12px;cursor:pointer;font-family:inherit}
+.quick button:hover{background:#dde6f1}
+#summary{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:13.5px;line-height:1.7;display:none}
+#summary b{color:var(--hd)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card h2{font-size:14px;margin:0;padding:9px 12px;color:#fff}
+.card.buy h2{background:var(--red)} .card.sell h2{background:var(--green)}
+.tblwrap{overflow-x:auto;max-height:70vh}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 9px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{background:#eef2f7;color:#334;position:sticky;top:0;font-weight:700}
+td.nm,th.nm{text-align:left}
+td.rk{color:var(--sub)}
+.pos{color:var(--red);font-weight:700} .neg{color:var(--green);font-weight:700}
+tr.brow{cursor:pointer} tr.brow:hover{background:#f3f7fc}
+.daily{margin-top:14px}
+.daily h2{font-size:14px;margin:0;padding:9px 12px;background:var(--hd);color:#fff}
+#detail{margin-top:14px;display:none}
+#detail h2{font-size:14px;margin:0;padding:9px 12px;background:#4a148c;color:#fff}
+.hint{color:var(--sub);font-size:12px;padding:14px}
+.err{color:var(--red);padding:14px;background:#fff;border:1px solid var(--line);border-radius:10px}
+</style>
+<style>thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head>
+<body>
+<div class="wrap">
+  <h1>分點明細查詢 · 單股前30大分點買賣</h1>
+  <div class="sub" id="meta">輸入任何股票代碼 + 日期區間,查該股期間內各分點的買賣超(前30大)。</div>
+
+  <div class="bar">
+    <div class="fld"><label>股票代碼</label><input id="code" list="stocklist" placeholder="例 6226" autocomplete="off"></div>
+    <datalist id="stocklist"></datalist>
+    <div class="fld"><label>起日</label><input id="d0" type="date"></div>
+    <div class="fld"><label>迄日</label><input id="d1" type="date"></div>
+    <button class="btn" id="go">查詢</button>
+    <div class="quick">
+      <button data-n="5">近5日</button>
+      <button data-n="10">近10日</button>
+      <button data-n="20">近20日</button>
+      <button data-n="0">全部</button>
+    </div>
+  </div>
+
+  <div id="summary"></div>
+  <div id="tables" style="display:none">
+    <div class="grid">
+      <div class="card buy"><h2>前30大買超分點</h2><div class="tblwrap"><table id="tBuy"></table></div></div>
+      <div class="card sell"><h2>前30大賣超分點</h2><div class="tblwrap"><table id="tSell"></table></div></div>
+    </div>
+    <div class="card daily"><h2>每日淨買賣合計</h2><div class="tblwrap"><table id="tDaily"></table></div></div>
+  </div>
+  <div id="detail"><h2 id="detTitle"></h2><div class="tblwrap"><table id="tDet"></table></div></div>
+  <div id="msg" class="hint">輸入代碼後按查詢。</div>
+</div>
+
+<script>
+const DIR = "分點明細/";
+let CUR = null, CAP = 60;
+const $ = s => document.querySelector(s);
+const fmt = v => (v===0? "0" : (v>0? "+"+v.toFixed(1) : v.toFixed(1)));
+const cls = v => v>0? "pos" : v<0? "neg" : "";
+function setMsg(t, err){ const m=$("#msg"); m.style.display="block"; m.className=err?"err":"hint"; m.textContent=t; }
+function clearMsg(){ $("#msg").style.display="none"; }
+
+// 載入清單(只為代碼下拉自動完成;查詢不受限,任何代碼都能查)
+fetch(DIR+"index.json").then(r=>r.json()).then(idx=>{
+  CAP = idx.cap || 60;
+  const dl = $("#stocklist");
+  idx.stocks.forEach(s=>{ const o=document.createElement("option"); o.value=s.c; o.label=s.c+" "+s.n; dl.appendChild(o); });
+  $("#meta").textContent = "資料更新 "+idx.updated+"｜近 "+idx.ndays+" 交易日｜每日前 "+CAP+" 大分點｜可查 "+idx.stocks.length+" 檔（代碼欄有下拉，也可直接打任何代碼）";
+  const q = new URLSearchParams(location.search).get("code");
+  if(q){ $("#code").value=q; load(q); }
+}).catch(e=>{ $("#meta").textContent="（清單載入中或此為本機檔）請用發布後的網址開啟本頁才讀得到資料。"; });
+
+function load(code){
+  code = (code||"").trim();
+  if(!/^\d{4}$/.test(code)){ setMsg("請輸入 4 位數股票代碼。", true); return; }
+  setMsg("載入 "+code+" …");
+  fetch(DIR+code+".json").then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(o=>{
+    CUR = o; clearMsg();
+    $("#d0").value=o.dates[0]; $("#d1").value=o.dates[o.dates.length-1];
+    $("#d0").min=o.dates[0]; $("#d0").max=o.dates[o.dates.length-1];
+    $("#d1").min=o.dates[0]; $("#d1").max=o.dates[o.dates.length-1];
+    render();
+  }).catch(e=>{ $("#tables").style.display="none"; $("#summary").style.display="none"; $("#detail").style.display="none";
+    setMsg("查不到 "+code+" 的分點資料。可能該股近期無分點、或本頁用本機檔開啟(請改用發布後的網址)。", true); });
+}
+
+function render(){
+  if(!CUR) return;
+  const a=$("#d0").value, b=$("#d1").value, ds=CUR.dates;
+  const di=[]; ds.forEach((d,i)=>{ if(d>=a && d<=b) di.push(i); });
+  const inR=new Set(di);
+  // 前30大:用(每日前CAP大)彙總
+  const agg={};
+  for(const [didx,bid,buy,sell] of CUR.rows){ if(!inR.has(didx)) continue; const g=agg[bid]||(agg[bid]=[0,0]); g[0]+=buy; g[1]+=sell; }
+  const list=Object.keys(agg).map(bid=>{const[bu,se]=agg[bid];return{bid,nm:CUR.brokers[bid]||bid,bu:+bu.toFixed(1),se:+se.toFixed(1),net:+(bu-se).toFixed(1)};});
+  const buys=list.filter(x=>x.net>0).sort((p,q)=>q.net-p.net).slice(0,30);
+  const sells=list.filter(x=>x.net<0).sort((p,q)=>p.net-q.net).slice(0,30);
+  // 每日合計:用完整摘要 sum(不受CAP影響)
+  let tNet=0, tB=0, tS=0;
+  const smap={}; (CUR.sum||[]).forEach(r=>smap[r[0]]=r);
+  di.forEach(i=>{ const r=smap[i]; if(r){ tB+=r[3]; tS+=r[4]; tNet+=(r[3]-r[4]); } });
+
+  $("#summary").style.display="block";
+  $("#summary").innerHTML = "<b>"+CUR.name+" ("+CUR.code+")</b>　期間 <b>"+a+" ~ "+b+"</b>，共 "+di.length+" 交易日<br>"+
+    "區間 <b>買超合計 "+tB.toFixed(1)+"</b> 張、<b>賣超合計 "+tS.toFixed(1)+"</b> 張、淨 "+fmt(+tNet.toFixed(1))+" 張（全分點精確；下方兩表為每日前"+CAP+"大彙總）";
+
+  const head='<tr><th>排名</th><th class="nm">券商分點</th><th>買張</th><th>賣張</th><th>淨買張</th></tr>';
+  const rowsOf=arr=>arr.map((x,i)=>'<tr class="brow" data-bid="'+x.bid+'"><td class="rk">'+(i+1)+'</td><td class="nm">'+x.nm+'</td><td>'+x.bu.toFixed(1)+'</td><td>'+x.se.toFixed(1)+'</td><td class="'+cls(x.net)+'">'+fmt(x.net)+'</td></tr>').join('');
+  $("#tBuy").innerHTML = head + (buys.length?rowsOf(buys):'<tr><td colspan=5 class="hint">此區間無買超分點</td></tr>');
+  $("#tSell").innerHTML= head + (sells.length?rowsOf(sells):'<tr><td colspan=5 class="hint">此區間無賣超分點</td></tr>');
+
+  const dh='<tr><th class="nm">日期</th><th>買超家數</th><th>賣超家數</th><th>買超合計</th><th>賣超合計</th><th>淨(張)</th></tr>';
+  const drows=di.slice().reverse().map(i=>{const d=ds[i];const r=smap[i]||[i,0,0,0,0];const net=r[3]-r[4];
+    return '<tr><td class="nm">'+d+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td class="pos">'+r[3].toFixed(1)+'</td><td class="neg">'+r[4].toFixed(1)+'</td><td class="'+cls(net)+'">'+fmt(+net.toFixed(1))+'</td></tr>';}).join('');
+  $("#tDaily").innerHTML = dh + drows;
+  $("#tables").style.display="block"; $("#detail").style.display="none";
+  document.querySelectorAll("#tBuy .brow,#tSell .brow").forEach(tr=>tr.onclick=()=>showBroker(tr.dataset.bid,a,b));
+}
+
+function showBroker(bid,a,b){
+  const ds=CUR.dates;
+  const rows=CUR.rows.filter(r=>r[1]===bid && ds[r[0]]>=a && ds[r[0]]<=b)
+    .map(r=>({d:ds[r[0]],bu:r[2],se:r[3],net:+(r[2]-r[3]).toFixed(1)})).sort((p,q)=>p.d<q.d?-1:1);
+  $("#detail").style.display="block";
+  $("#detTitle").textContent=(CUR.brokers[bid]||bid)+"　逐日買賣（"+a+" ~ "+b+"）";
+  const h='<tr><th class="nm">日期</th><th>買張</th><th>賣張</th><th>淨買張</th></tr>';
+  let cum=0;
+  const body=rows.map(x=>{cum=+(cum+x.net).toFixed(1);return '<tr><td class="nm">'+x.d+'</td><td>'+x.bu.toFixed(1)+'</td><td>'+x.se.toFixed(1)+'</td><td class="'+cls(x.net)+'">'+fmt(x.net)+'</td></tr>';}).join('');
+  const foot='<tr><td class="nm"><b>累計淨</b></td><td></td><td></td><td class="'+cls(cum)+'"><b>'+fmt(cum)+'</b></td></tr>';
+  $("#tDet").innerHTML=h+body+foot;
+  $("#detail").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+$("#go").onclick=()=>load($("#code").value);
+$("#code").addEventListener("keydown",e=>{if(e.key==="Enter")load($("#code").value);});
+$("#code").addEventListener("change",()=>load($("#code").value));
+[$("#d0"),$("#d1")].forEach(el=>el.addEventListener("change",()=>{if(CUR)render();}));
+document.querySelectorAll(".quick button").forEach(btn=>btn.onclick=()=>{
+  if(!CUR) return; const n=+btn.dataset.n, ds=CUR.dates;
+  $("#d1").value=ds[ds.length-1];
+  $("#d0").value = n===0? ds[0] : ds[Math.max(0,ds.length-n)];
+  render();
+});
+</script>
+<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-08-31 04:52</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body>
+</html>
