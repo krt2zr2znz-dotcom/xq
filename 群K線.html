@@ -27,7 +27,7 @@ function draw(id,bars,sigs,title){
 function show(g){var o=G[g];if(!o)return;draw('dchart',o.d,o.ds,g+' 日K(日三買點 '+o.ds.length+' 個)');draw('wchart',o.w,o.ws,g+' 周K(周三買點 '+o.ws.length+' 個)');}
 document.getElementById('sel').addEventListener('change',function(){show(this.value);});
 show(document.getElementById('sel').value);
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-04 23:49</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-05 18:35</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
