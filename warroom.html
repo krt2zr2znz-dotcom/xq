@@ -13,7 +13,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:5px 7px;b
 .tb{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}.tb select,.tb input{padding:4px 8px;border-radius:6px;border:1px solid #2a3a48;background:#16202b;color:#e6edf3}
 .tool{display:inline-block;background:#16202b;border:1px solid #2a3a48;border-radius:8px;padding:8px 12px;margin:4px 6px 4px 0;color:#e6edf3;text-decoration:none;font-size:13px}.tool:hover{background:#1f2d3b}
 .j{display:inline-block;background:#16202b;border-radius:6px;padding:4px 8px;margin-right:6px;font-size:12px}.warn{background:#3a1d1d;color:#ff8a8a;border-radius:8px;padding:8px 12px;font-size:12px;margin-top:10px}
-.src{font-size:11px;color:#6b7d8f;margin-top:8px}</style></head><body>
+.src{font-size:11px;color:#6b7d8f;margin-top:8px}</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body>
 <header>🏯 戰情室 · 2026-09-07 <span>資料日 2026-09-07 ・ 產生 2026-09-07 21:57 ・ 這頁只讀現有產出,原頁面都在下方連結</span></header>
 <div class="wrap">
 <h2>① 大環境</h2><div class="env" style="border-color:#8b3a3a"><div class="big">🔴 空手 / 極輕</div><div class="ix"><b>加權</b><span>47326.27</span><span class="pos">+1.67%</span><span class="dim">年線✔ 月線✔ 當日▲</span></div><div class="ix"><b>櫃買</b><span>384.19</span><span class="">+0.00%</span><span class="dim">年線✔ 月線✘ 當日▼</span></div><div class="dim">日報v3 燈號:綠=加權&櫃買皆年線多頭+月線短多+當日櫃買漲;黃=大小週期多頭但日內未過;紅=空手。資料日 2026-09-07</div></div>
@@ -36,4 +36,40 @@ function filt(){const q=document.getElementById('q').value.trim(),s=document.get
  for(const r of tb.rows){let ok=true;if(q&&!r.innerText.includes(q))ok=false;if(s&&r.dataset.side!==s)ok=false;if(p&&!r.dataset.per.includes(p))ok=false;if(two&&parseInt(r.cells[6].innerText.split('/')[1])<2)ok=false;r.style.display=ok?'':'none';if(ok)n++;}
  document.getElementById('cnt').textContent='顯示 '+n+' 檔';}
 ['q','fs','fp','f2'].forEach(i=>document.getElementById(i).addEventListener('input',filt));filt();
-</script></body></html>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-07 21:57</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body></html>
