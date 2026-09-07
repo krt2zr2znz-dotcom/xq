@@ -207,13 +207,26 @@ function runBT(){
       +'<td>'+fmt(win(a,'n3c'),0)+'</td><td class="'+cl(avg(a,'n3c'))+'">'+fmt(avg(a,'n3c'))+'</td><td>'+fmt(win(a,'n5c'),0)+'</td><td class="'+cl(avg(a,'n5c'))+'">'+fmt(avg(a,'n5c'))+'</td></tr>';});
   $('#btS').innerHTML=h;
   all.sort((a,b)=>b.d.localeCompare(a.d)||b.stg-a.stg);
-  let g='<tr>'+th('訊號日')+th('代碼')+th('名稱')+th('訊號')+th('訊號日收')+th('量比')+th('布林')+th('隔日開')+th('隔日高')+th('隔日低')+th('隔日收')+th('開高走高')+th('3日收')+th('5日收')+'</tr>';
-  g+=all.map(r=>'<tr><td class="l">'+r.d+'</td><td class="l">'+r.c+'</td><td class="l">'+r.nm+'</td><td class="l">'+pill(r)+'</td><td>'+f(r.close,2)+'</td><td>'+f(r.vr,2)+'</td><td class="'+bbcls(r.bb)+'">'+r.bb+'</td>'
+  const bth=(lbl,k,typ)=>'<th class="bts" data-k="'+k+'" data-typ="'+(typ||'num')+'" style="background:#1f4e78;cursor:pointer;user-select:none">'+lbl+'<i></i></th>';
+  let g='<tr>'+bth('訊號日','d','str')+bth('代碼','c','str')+bth('名稱','nm','str')+bth('訊號','sig','str')+bth('訊號日收','close')+bth('量比','vr')+bth('布林','bb','str')+bth('隔日開','n1o')+bth('隔日高','n1h')+bth('隔日低','n1l')+bth('隔日收','n1c')+bth('開高走高','n1hl')+bth('3日收','n3c')+bth('5日收','n5c')+'</tr>';
+  const btBody=rows=>rows.map(r=>'<tr><td class="l">'+r.d+'</td><td class="l">'+r.c+'</td><td class="l">'+r.nm+'</td><td class="l">'+pill(r)+'</td><td>'+f(r.close,2)+'</td><td>'+f(r.vr,2)+'</td><td class="'+bbcls(r.bb)+'">'+r.bb+'</td>'
     +'<td class="'+cl(r.n1o)+'">'+fmt(r.n1o)+'</td><td class="pos">'+fmt(r.n1h)+'</td><td class="neg">'+fmt(r.n1l)+'</td><td class="'+cl(r.n1c)+'">'+fmt(r.n1c)+'</td><td>'+(r.n1c==null?'—':(r.n1hl?'<span class="pill p-long">是</span>':'否'))+'</td><td class="'+cl(r.n3c)+'">'+fmt(r.n3c)+'</td><td class="'+cl(r.n5c)+'">'+fmt(r.n5c)+'</td></tr>').join('')||'<tr><td colspan="14" style="text-align:center;color:#889;padding:14px">這個篩選條件在回看期間沒有任何訊號</td></tr>';
-  $('#btD').innerHTML=g;
+  BTALL=all; BTK='d'; BTDIR=-1;
+  function btDraw(){
+    const a=BTALL.slice(); const typ=(document.querySelector('#btD th[data-k="'+BTK+'"]')||{}).dataset;
+    a.sort((x,y)=>{let p=x[BTK],q=y[BTK];
+      if(typ&&typ.typ==='str'){p=(p==null?'':''+p);q=(q==null?'':''+q);return BTDIR*p.localeCompare(q,'zh-Hant');}
+      p=(p==null?-1e18:+p);q=(q==null?-1e18:+q);return BTDIR*(p-q);});
+    $('#btD').innerHTML=g+btBody(a);
+    document.querySelectorAll('#btD th.bts i').forEach(i=>i.textContent='');
+    const th=document.querySelector('#btD th[data-k="'+BTK+'"] i'); if(th)th.textContent=BTDIR<0?' ▼':' ▲';
+    document.querySelectorAll('#btD th.bts').forEach(t=>t.onclick=()=>{const k=t.dataset.k; if(BTK===k)BTDIR*=-1; else{BTK=k;BTDIR=(t.dataset.typ==='str')?1:-1;} btDraw();});
+  }
+  btDraw();
   $('#btT').textContent='近一個月回測('+days[0]+' ~ '+days[days.length-1]+',共 '+all.length+' 筆訊號,其中 '+has1.length+' 筆已有隔日資料)';
   $('#bt').style.display='block'; $('#bt').scrollIntoView({behavior:'smooth'});
 }
+let BTALL=[],BTK='d',BTDIR=-1;
 $('#bBT').onclick=runBT;
 $('#bOnlyV').onclick=()=>{onlyV=!onlyV;$('#bOnlyV').style.background=onlyV?'#1f4e78':'';$('#bOnlyV').style.color=onlyV?'#fff':'';draw();};
 $('#bClrV').onclick=()=>{if(VSET.size&&confirm('清除全部打V?')){VSET.clear();saveV();draw();}};
