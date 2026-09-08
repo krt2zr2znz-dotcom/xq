@@ -22,7 +22,7 @@ function flt(q){q=(q||'').trim();document.getElementById('q').value=q;document.q
 document.querySelectorAll('th').forEach((th)=>{th.onclick=()=>{const t=th.closest('table'),tb=t.tBodies[0],i=th.cellIndex,rows=[...tb.rows];const d=th.dataset.d=(th.dataset.d==='a'?'d':'a');
  rows.sort((a,b)=>{const x=a.cells[i],y=b.cells[i];let p=x.dataset.v!==undefined?+x.dataset.v:x.textContent.trim(),q=y.dataset.v!==undefined?+y.dataset.v:y.textContent.trim();
  if(typeof p==='string'&&!isNaN(parseFloat(p))&&x.dataset.v===undefined){p=parseFloat(p);q=parseFloat(q);}return (p>q?1:p<q?-1:0)*(d==='a'?1:-1);});rows.forEach(r=>tb.appendChild(r));};});
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-08 21:24</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-08 23:37</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
