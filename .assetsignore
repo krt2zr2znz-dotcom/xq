@@ -1,0 +1,13 @@
+.git
+node_modules
+__pycache__
+*.py
+*.pyc
+*.bak*
+*.bat
+*.gz
+.gitignore
+wrangler.jsonc
+wrangler.toml
+.assetsignore
+.wrangler
