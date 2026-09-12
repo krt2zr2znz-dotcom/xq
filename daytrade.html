@@ -80,4 +80,4 @@ bind('btvCur',function(){dl(curCodes(),'');});
 bind('btvV',function(){var v=vCodes();if(!v.length){alert('目前沒有打V的股票\n(在表格第一欄 V\ud83d\udd12 勾選)');return;}dl(v,'打V');});
 bind('btvCopy',function(){var ss=syms(curCodes());if(!ss.length){alert('沒有可複製的股票');return;}var t=ss.join(',');
  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){alert('已複製 '+ss.length+' 檔\n到 TradingView 自選 →「+新增商品」貼上即可');},function(){prompt('手動複製:',t);});});
-})();</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-12 08:30</div></body></html>
+})();</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-12 08:47</div></body></html>
