@@ -111,7 +111,7 @@ H=('<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewpo
  '<th onclick="sortBy(\'h5\')">5K高</th><th onclick="sortBy(\'l5\')">5K低</th><th onclick="sortBy(\'R\')">R價差</th>'
  '<th class="pg" onclick="sortBy(\'p1\')">R1壓</th><th class="pg" onclick="sortBy(\'p2\')">R2壓</th><th class="pg" onclick="sortBy(\'p3\')">R3壓</th>'
  '<th class="sg" onclick="sortBy(\'s1\')">R1撐</th><th class="sg" onclick="sortBy(\'s2\')">R2撐</th><th class="sg" onclick="sortBy(\'s3\')">R3撐</th>'
- '</tr></thead><tbody id="tb"></tbody></table></div><div id="bt" style="display:none"><div style="font-weight:700;color:#e8f0fb;padding:4px 0"><span id="btT">近一個月回測</span></div><div class="foot">套用上面目前的篩選條件(差價%/一字 除外——歷史沒有盤中5分K資料);報酬=相對訊號日收盤%。</div><div class="tb-scroll" style="max-height:40vh"><table id="btS"></table></div><div class="tb-scroll" style="max-height:50vh;margin-top:8px"><table id="btD"></table></div></div>'
+ '</tr></thead><tbody id="tb"></tbody></table></div><div id="bt" style="display:none"><div style="font-weight:700;color:#e8f0fb;padding:4px 0"><span id="btT">近一個月回測</span></div><div class="tb-scroll" style="max-height:40vh"><table id="btS"></table></div><div class="tb-scroll" style="max-height:50vh;margin-top:8px"><table id="btD"></table></div></div>'
  '<script>'+JS.replace('__DATA__',J).replace('__DATE__',json.dumps(DATE)).replace('__HIST__',HJSON)+'</script></div></html>')
 open(os.path.join(HERE,'gap.html'),'w',encoding='utf-8').write(H)
 print('gap.html 產出:%d 檔,日期 %s'%(len(data),DATE))
