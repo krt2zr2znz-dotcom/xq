@@ -157,7 +157,7 @@ function tbl(rows,title,sub){
     +'<th>綠分點<br><span style="font-weight:400;font-size:11px">(17家貼漲停·家/張)</span></th><th>紅分點<br><span style="font-weight:400;font-size:11px">(17家未貼漲停·家/張)</span></th><th>分點總<br>占量%</th><th>分點加總<br>×2(張)<br><span style="font-weight:400;font-size:11px">▸點看非17家</span></th><th>×2占比%<br><span style="font-weight:400;font-size:11px">(綠+非17家)÷量×2</span></th><th>隔日開盤</th><th>隔日收盤</th><th>隔日最低</th><th>隔日最高</th><th>開高走低</th><th>隔日收盤<br>漲跌%</th>'
     +'<th>倒貨%<br><span style="font-weight:400;font-size:11px">(隔日賣/T買)</span></th><th>進場價<br><span style="font-weight:400;font-size:11px">(T買均)</span></th><th>出場價<br><span style="font-weight:400;font-size:11px">(隔日賣均)</span></th><th>來回<br>損益</th></tr></thead>';
   var body=rows.length?rows.map(rowhtml).join(''):'<tr><td colspan="24" class="empty">當日無符合條件的個股</td></tr>';
-  return '<h2>'+title+' <span class="cnt">'+rows.length+'檔</span></h2><div class="sub">'+sub+' ｜ 點欄位標題可排序</div><table class="dt">'+head+'<tbody>'+body+'</tbody></table>';
+  return '<h2>'+title+' <span class="cnt">'+rows.length+'檔</span></h2><table class="dt">'+head+'<tbody>'+body+'</tbody></table>';
 }
 function _sortDT(th){var t=th.closest('table'),tb=t.tBodies[0];if(!tb)return;var idx=[].indexOf.call(th.parentNode.children,th),asc=th._asc=!th._asc;
   var rs=[].slice.call(tb.rows).filter(function(r){return r.cells.length>idx&&!/empty/.test((r.firstElementChild&&r.firstElementChild.className)||'');});
