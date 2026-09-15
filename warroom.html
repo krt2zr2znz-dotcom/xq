@@ -36,7 +36,7 @@ function filt(){const q=document.getElementById('q').value.trim(),s=document.get
  for(const r of tb.rows){let ok=true;if(q&&!r.innerText.includes(q))ok=false;if(s&&r.dataset.side!==s)ok=false;if(p&&!r.dataset.per.includes(p))ok=false;if(two&&parseInt(r.cells[6].innerText.split('/')[1])<2)ok=false;r.style.display=ok?'':'none';if(ok)n++;}
  document.getElementById('cnt').textContent='顯示 '+n+' 檔';}
 ['q','fs','fp','f2'].forEach(i=>document.getElementById(i).addEventListener('input',filt));filt();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-15 03:23</div><script>(function(){
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-15 03:29</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
