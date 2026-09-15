@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>主力選股</title>
 <style>
 :root{--bg:#f4f6f9;--card:#fff;--hd:#1f4e78;--line:#e2e6ec;--red:#c0392b;--green:#1b8f4d;--ink:#222;--sub:#667;}
@@ -27,7 +27,7 @@ a.go{color:#2a6fb0;text-decoration:none}
 #modal .box{background:#fff;border-radius:12px;max-width:560px;width:92%;margin-top:6vh;max-height:82vh;overflow:auto;box-shadow:0 10px 40px rgba(0,0,0,.35)}
 #modal .hd{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#2a6fb0;color:#fff;border-radius:12px 12px 0 0}
 #modal .x{cursor:pointer;font-size:22px;line-height:1;padding:0 4px}
-</style><style>thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body><div class="wrap">
+</style></head><body><div class="wrap">
 <h1>主力選股 · 連紅開主力 / 跌破回檔</h1>
 <div class="sub" id="meta"></div>
 <div class="bar">
@@ -56,17 +56,6 @@ a.go{color:#2a6fb0;text-decoration:none}
 </tr></thead><tbody id="tb"></tbody>
 </table></div></div>
 <div id="cnt" class="sub" style="margin-top:8px"></div>
-<div class="note">
-<b>欄位說明:</b><br>
-<b>連紅K/連綠K</b> = 連續紅K(收>開)/綠K(收<開)天數,以「當日開盤 vs 收盤」判定(可點看該段K棒明細)｜<b>一格R</b> = 這段連紅高−低｜
-<b>震盪區</b> = 最後一根紅K高點 ~ 波段最高點(綠K收盤跌破它下緣=跌破)｜
-<b>紅K均量/最大/最低</b> = 連紅那幾根的量｜<b>綠K量</b> = 當前綠K的量(比紅K均量大=帶量下殺)｜
-<b>量比</b> = 當日量 ÷ 紅K均量｜<b>布林位置</b> = 收盤在上/中/下軌｜<b>乖離率%</b> =(收盤−所在軌)÷所在軌×100(上軌比上軌、中軌比20MA、下軌比下軌);上面「乖離率≥」預設0=只留在所在軌之上｜
-<b>訊號</b>:<span class="pill p-long">開主力</span> 連紅≥門檻+站上軌 ／ <span class="pill p-short">跌破震盪區</span> 綠K收盤跌破震盪區下緣(量增再標·量增) ／ <span class="pill p-watch">觀察</span> 差一點。
-族群可點看同族群個股收盤/漲跌。<br>
-<b>處置中</b> = 證交所/櫃買已公告(含明天起處置),顯示 起~迄 與撮合分鐘;上方「隱藏處置中」預設勾選=不顯示這些股票,取消勾選才會列出｜
-<b>明天可能處置</b> = <a class="go" target="_blank" href="https://chengwaye.com/disposal-forecast">Chengwaye 明日處置預測</a>(該站公式估算、非交易所預告):「差 1 次就處置」的股票,標最快處置日/第幾次/幾分盤,下方小字為觸發條件(例 ①7245↑ = 明天收在 7245 以上就達標)。
-</div>
 </div>
 <div id="modal"><div class="box"><div class="hd"><span id="mT" style="font-weight:700;font-size:14px"></span><span class="x" onclick="document.getElementById('modal').style.display='none'">×</span></div><div class="tblwrap"><table id="mTbl"></table></div></div></div>
 <script>
@@ -189,40 +178,4 @@ document.querySelectorAll('th.s').forEach(th=>th.onclick=()=>setSort(th.dataset.
 $('#bOnlyV').onclick=()=>{onlyV=!onlyV;$('#bOnlyV').style.background=onlyV?'#1f4e78':'';$('#bOnlyV').style.color=onlyV?'#fff':'';draw();};
 $('#bClrV').onclick=()=>{if(VSET.size&&confirm('清除全部打V?')){VSET.clear();saveV();draw();}};
 draw();
-</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-15 03:29</div><script>(function(){
-var VKEY='V選股';
-function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
-function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
-var VSEL=vGet(), VONLY=false;
-function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
-function aug(){
- var ts=document.querySelectorAll('table');
- for(var i=0;i<ts.length;i++){var t=ts[i];
-  if(t.getAttribute('data-vdone'))continue;
-  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
-  t.setAttribute('data-vdone','1');
-  var hrs=t.querySelectorAll('thead tr');
-  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
-  var trs=t.querySelectorAll('tbody tr');
-  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
-   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
-    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
-     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
-    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
-   tr.insertBefore(td,tr.firstElementChild);}
- }
-}
-function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
-function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
- var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
- b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
- var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
- c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
- if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
- else{host.appendChild(b);host.appendChild(c);}
-}
-function boot(){aug();mkbar();vApply();}
-if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
-window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
-})();</script></body></html>
+</script></body></html>
