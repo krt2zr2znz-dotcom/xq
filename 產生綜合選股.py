@@ -92,6 +92,20 @@ if os.path.exists(CONCF):
     hasConc=len(CONC)>0
 print('集中度 CSV:', '有 %d 檔' % len(CONC) if hasConc else '無(欄位顯示—)')
 
+# 4.5) 族群對照 code -> 族群(可多個)
+GRP={}
+gf=os.path.join(BASE,'01_資料主檔','族群個股鏈位.csv')
+if os.path.exists(gf):
+    with io.open(gf,encoding='utf-8-sig',newline='') as fh:
+        rd=csv.reader(fh); next(rd,None)
+        for r in rd:
+            if len(r)>=3:
+                _c=r[2].strip(); _g=r[0].strip()
+                if _c and _g:
+                    GRP.setdefault(_c,[])
+                    if _g not in GRP[_c]: GRP[_c].append(_g)
+print('族群對照 %d 檔' % len(GRP))
+
 # 5) 合併
 DATA=[]
 for c,g in G.items():
@@ -114,7 +128,8 @@ for c,g in G.items():
       'zt':zt,'ztk':ztk,'dt':dt,'dtk':dtk,'rn':redN,'gn':grnN,
       'disp':bool(g.get('disp')),'emg':(g.get('mk','')=='興櫃'),'gap':g.get('gap'),
       'h6':b['h6'],'w1':b['w1'],
-      'c5':(cc['c5'] if cc else None),'c10':(cc['c10'] if cc else None),'c20':(cc['c20'] if cc else None)})
+      'c5':(cc['c5'] if cc else None),'c10':(cc['c10'] if cc else None),'c20':(cc['c20'] if cc else None),
+      'grp':'、'.join(GRP.get(c,[]))})
 print('輸出 %d 檔' % len(DATA))
 
 DATE = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
