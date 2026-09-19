@@ -11,3 +11,7 @@ wrangler.jsonc
 wrangler.toml
 .assetsignore
 .wrangler
+_綜合選股_模板.html
+產生綜合選股.py
+_換網址_移除舊頁.py
+_*.html
