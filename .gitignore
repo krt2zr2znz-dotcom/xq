@@ -4,3 +4,4 @@ _綜合選股_模板.html
 .wrangler/
 __pycache__/
 *.pyc
+*.bak*

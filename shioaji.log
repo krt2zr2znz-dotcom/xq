@@ -5,3 +5,10 @@
 [pid:27336] 2026-09-29T11:11:40.226246Z  INFO shioaji::contracts_v2::traffic: contract disk cache cache="hit" block="info" region=TW security_type=STK bytes=86499
 [pid:27336] 2026-09-29T11:11:45.078778Z  INFO shioaji::api::token_pool: Removed invalid token from slot 5
 [pid:27336] 2026-09-29T11:11:45.085024Z  INFO shioaji::api: msg receiver error: Closed
+[pid:44080] 2026-09-30T12:45:39.751588Z  INFO shioaji::api::api_v1::auth::token_login: No cached token available, performing new login
+[pid:44080] 2026-09-30T12:45:40.063353Z  INFO shioaji::api::api_v1::auth::token_login: Stored new token in slot 5
+[pid:44080] 2026-09-30T12:45:42.390956Z  INFO shioaji::contracts_v2::traffic: contract backend response endpoint="contracts_version" regions=Some([TW]) security_types=Some([Stock]) bytes=198
+[pid:44080] 2026-09-30T12:45:42.398874Z  INFO shioaji::contracts_v2::traffic: contract disk cache cache="hit" block="base" region=TW security_type=STK bytes=9291
+[pid:44080] 2026-09-30T12:45:42.409319Z  INFO shioaji::contracts_v2::traffic: contract disk cache cache="hit" block="info" region=TW security_type=STK bytes=86665
+[pid:44080] 2026-09-30T12:46:27.666436Z  INFO shioaji::api::token_pool: Removed invalid token from slot 5
+[pid:44080] 2026-09-30T12:46:27.669381Z  INFO shioaji::api: msg receiver error: Closed
