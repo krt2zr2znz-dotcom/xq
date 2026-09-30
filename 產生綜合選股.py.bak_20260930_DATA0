@@ -19,12 +19,8 @@ def f_tick(p):
 
 # 1) gap 底稿(全市場)
 gh = io.open(GAPF, encoding='utf-8').read()
-# ★9/30 修:gap 頁 9/24 起資料在 var DATA0=[...](DATA=DATA0 只是引用)
-gi = gh.find('DATA0=')
-if gi >= 0: gdata,_ = json.JSONDecoder().raw_decode(gh, gi+len('DATA0='))
-else:
-    gi = gh.find('DATA=')
-    gdata,_ = json.JSONDecoder().raw_decode(gh, gi+len('DATA='))
+gi = gh.find('DATA=')
+gdata,_ = json.JSONDecoder().raw_decode(gh, gi+len('DATA='))
 grows = gdata if isinstance(gdata,list) else gdata.get('rows',[])
 G = {r['c']: r for r in grows if r.get('c')}
 print('gap 底稿 %d 檔' % len(G))
