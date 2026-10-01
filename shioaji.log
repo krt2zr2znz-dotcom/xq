@@ -17,3 +17,8 @@
 [pid:39504] 2026-10-01T10:52:02.723454Z  INFO shioaji::api::token_pool: Removed invalid token from slot 5
 [pid:39504] 2026-10-01T10:52:02.743130Z  INFO shioaji::api: P2P receiver closed: Closed
 [pid:39504] 2026-10-01T10:52:02.743134Z  INFO shioaji::api: msg receiver error: Closed
+[pid:38568] 2026-10-01T14:46:42.560296Z  INFO shioaji::api::api_v1::auth::token_login: No cached token available, performing new login
+[pid:38568] 2026-10-01T14:46:43.315721Z  INFO shioaji::api::api_v1::auth::token_login: Stored new token in slot 5
+[pid:38568] 2026-10-01T14:46:48.131875Z  INFO shioaji::api::token_pool: Removed invalid token from slot 5
+[pid:38568] 2026-10-01T14:46:48.144206Z  INFO shioaji::api: msg receiver error: Closed
+[pid:38568] 2026-10-01T14:46:48.144246Z  INFO shioaji::api: P2P receiver closed: Closed
