@@ -10,7 +10,7 @@ td.l,th.l{text-align:left}.pos{color:#ff5b5b}.neg{color:#3fbf6f}.dim{color:#6b7d
 .tbl{overflow-x:auto}
 .bkn{cursor:pointer;border-bottom:1px dotted #6b7d8f}.bkn.has{color:#ffd27a;border-bottom:1px dotted #ffd27a}.hb{font-size:10px;background:#3b3a2a;color:#ffd27a;border-radius:4px;padding:0 4px;margin-left:3px}
 #bkpop{display:none;position:fixed;right:16px;top:60px;width:min(420px,92vw);background:#16202b;border:1px solid #8B5E00;border-radius:10px;padding:12px 14px;z-index:99;box-shadow:0 8px 30px #000a;font-size:13px;line-height:1.6}
-#bkpop h3{margin:0 0 6px;font-size:15px;color:#ffd27a}#bkpop .x{float:right;cursor:pointer;color:#aab}#bkpop table{font-size:12px;margin-top:6px}#bkpop td,#bkpop th{padding:2px 6px}</style></head><body>
+#bkpop h3{margin:0 0 6px;font-size:15px;color:#ffd27a}#bkpop .x{float:right;cursor:pointer;color:#aab}#bkpop table{font-size:12px;margin-top:6px}#bkpop td,#bkpop th{padding:2px 6px}</style><style>/*VPATCH-V*/thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body>
 <header>🧾 權證分點進出追蹤 2026-09-30 <span>範圍:權證方向頁(2026-09-29)64 檔標的 ・ 門檻:單一分點單一權證 當日買或賣 ≥ 100 萬 ・ 歷史回抓 0/91 檔(最多 278 個交易日)</span></header>
 <div class="wrap">
 <div id="dailyrpt" class="note" style="margin:10px 0 4px;border-left:4px solid #ffd27a"><b>📰 2026-09-30 權證市場資金異動日報(自動)</b> <span class="btn" onclick="var x=document.getElementById('rptb');x.style.display=x.style.display=='none'?'block':'none'">展開/收合</span><div id="rptb" style="display:none;white-space:pre-wrap;margin-top:6px">【市場金流變動簡述】
@@ -50,4 +50,40 @@ document.querySelectorAll('th').forEach((th)=>{th.onclick=()=>{const t=th.closes
 if(!h){b='<div class="dim">這個分點沒有習性資料,也沒有足夠回測筆數。</div>';}else{if(h.g)b+='<div>標籤:'+h.g.split('|').join('、')+'</div>';if(h.d)b+='<div style="margin:6px 0;color:#e6edf3">'+h.d+'</div>';
 var k=Object.keys(h.bt||{});if(k.length){b+='<div class="dim">回測(2025-12~最近,權證分點回測_分點事件.csv):這個分點做出該方向動作後,標的股的走勢</div><table><tr><th>動作方向</th><th>次數</th><th>均隔日收</th><th>隔日收&gt;0</th><th>均5日</th></tr>';
 k.forEach(function(d){var a=h.bt[d];b+='<tr><td>'+d+'</td><td>'+a[0]+'</td><td class="'+(a[1]>0?'pos':'neg')+'">'+(a[1]>0?'+':'')+a[1]+'%</td><td>'+a[2]+'%</td><td class="'+((a[3]||0)>0?'pos':'neg')+'">'+(a[3]==null?'—':((a[3]>0?'+':'')+a[3]+'%'))+'</td></tr>';});b+='</table><div class="dim">※ 看多=認購建倉/加碼或認售結清;看空=認購結清/減碼或認售建倉。次數少於30的別當真。</div>';}else b+='<div class="dim">回測筆數不足(&lt;10)。</div>';}
-document.getElementById('bkb').innerHTML=b;p.style.display='block';}</script></body></html>
+document.getElementById('bkb').innerHTML=b;p.style.display='block';}</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-09-30 21:33</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script></body></html>
