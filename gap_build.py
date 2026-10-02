@@ -23,7 +23,8 @@ _haved={d for (_,d) in FIRST}
 MISSD={d for d in NEEDD if d not in _haved}|{DATE}     # 今天永遠重掃(補1分K_今日 可能後到)
 print('  第一根5分K:需要 %d 日,快取已有 %d 日,重掃 %d 日'%(len(NEEDD),len(NEEDD-MISSD),len(MISSD)))
 _new={}
-for fp in [os.path.join(HD,'全市場1分K_A.csv'),os.path.join(HD,'全市場1分K_B.csv')]+glob.glob(os.path.join(HD,'補1分K_*.csv')):
+import sys as _sys; _sys.path.insert(0, HD); import 近日1分K as _K1   # 2026-10-03 改讀近40日/日檔(不是最新會自動退回 A+B)
+for fp in _K1.檔案(min(MISSD))+glob.glob(os.path.join(HD,'補1分K_*.csv')):
     if not os.path.exists(fp) or not MISSD: continue
     with open(fp,encoding='utf-8-sig',errors='ignore') as f:
         next(f,None)
