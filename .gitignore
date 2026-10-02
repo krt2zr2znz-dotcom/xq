@@ -5,3 +5,5 @@ _綜合選股_模板.html
 __pycache__/
 *.pyc
 *.bak*
+*.log
+shioaji.log
