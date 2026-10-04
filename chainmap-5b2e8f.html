@@ -1,3 +1,4 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台股產業鏈地圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -67,7 +68,7 @@ mark{background:var(--hotbg);color:inherit;padding:0 2px;border-radius:3px}
 </style>
 
 <div class="wrap">
-<header><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
+<header>
   <div><div class="sub">櫃買中心產業價值鏈(FinMind)· 營收比重確認主屬性 · 股價一年.csv 計算強弱</div><h1>台股產業鏈地圖</h1></div>
   <div class="sub num" id="meta"></div>
 </header>
@@ -175,9 +176,10 @@ function openSub(i,s){if(document.getElementById('only').checked){document.getEl
 const REC=new Set((J.rec||[]).map(r=>r[0]));
 function drawTop(){const T=J.theme; if(T&&T.b){const lk=it=>'<span class="lk" data-i="'+esc(it[0])+'" data-s="'+esc(it[1])+'">'+esc(it[1]||it[0])+(it[2]!=null?' '+fmt(it[2])+'%':'')+'</span>';
    document.getElementById('theme').innerHTML='<div class="tb"><h3>盤勢主軸:'+esc(T.title)+' <span class="sub" style="font-size:12px;font-weight:400">('+J.T+' 收盤,每天自動更新;點名稱看那個族群)</span></h3><ul>'+
-   (T.dirs&&T.dirs.length?'</ul><table class="dirt"><thead><tr><th>族群</th><th>方向</th><th>子族群(發動/轉強,20 日)</th><th>建議個股 <span class="sub">【未過回測】G1 挑法:發動子族群的中段/落後沒破 60 日線</span></th></tr></thead><tbody>'+
-   T.dirs.map(d=>'<tr><td><span class="lk" data-i="'+esc(d.i)+'" data-s=""><b>'+esc(d.i)+'</b></span></td><td>發動 '+d.h+' · 轉強 '+d.t+'</td><td>'+d.subs.map(lk).join('、')+'</td><td>'+
-     (d.picks.length?d.picks.map(p=>'<span class="rc" data-i="'+esc(d.i)+'" data-s="'+esc(p[2])+'" title="'+esc(p[2])+' · '+p[3]+' · 20日 '+fmt(p[4])+'% · 距60日高 '+(p[5]==null?'—':(p[5]-100).toFixed(0)+'%')+'">'+p[0]+' '+esc(p[1])+(REC.has(p[0])?' 📼':'')+'</span>').join(''):'<span class="sub">—</span>')+'</td></tr>').join('')+'</tbody></table><ul style="margin-top:8px">':'')+
+   (T.dirs&&T.dirs.length?'</ul><table class="dirt"><thead><tr><th>族群</th><th>方向</th><th>子族群(狀態 · 20 日;發動→轉強→整理→落後)</th></tr></thead><tbody>'+
+   T.dirs.map(d=>{const RK={'發動':0,'轉強':1,'整理':2,'落後':3}, ss=J.subs.filter(x=>x.i===d.i).sort((a,b)=>(RK[a.st]-RK[b.st])||(b.r20-a.r20)), cnt=k=>ss.filter(x=>x.st===k).length;
+     return '<tr><td><span class="lk" data-i="'+esc(d.i)+'" data-s=""><b>'+esc(d.i)+'</b></span></td><td style="white-space:nowrap">發動 '+cnt('發動')+' · 轉強 '+cnt('轉強')+' · 整理 '+cnt('整理')+' · 落後 '+cnt('落後')+'</td><td>'+
+     ss.map(x=>'<span style="display:inline-block;margin:2px 10px 2px 0;white-space:nowrap"><span class="pill '+(PILL[x.st]||'p-mid')+'">'+x.st+'</span> <span class="lk" data-i="'+esc(x.i)+'" data-s="'+esc(x.s)+'">'+esc(x.s)+' '+fmt(x.r20)+'%</span></span>').join('')+'</td></tr>';}).join('')+'</tbody></table><ul style="margin-top:8px">':'')+
    T.b.filter(b=>b.h!=='最強的子產業'&&b.h!=='發動集中在').map(b=>'<li><b>'+esc(b.h)+'</b>:'+esc(b.t)+(b.it.length?' '+b.it.map(lk).join('、'):'')+'</li>').join('')+'</ul></div>';}
   const R=J.rec||[]; if(R.length){const by={};R.forEach(r=>{const v=J.stock[r[0]];const k=v?v[1]+'|'+v[2]:'|';(by[k]=by[k]||[]).push(r[0]);});
    document.getElementById('recbox').innerHTML='<div class="tb"><h3>📼 '+(J.recD||'明天')+' 盤中錄製:產業鏈發動/轉強 '+R.length+' 檔 <span class="sub" style="font-size:12px;font-weight:400">(點股票跳到它的子產業;成分股表裡 📼 = 會錄)</span></h3>'+
