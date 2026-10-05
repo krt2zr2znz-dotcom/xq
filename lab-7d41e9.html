@@ -8,69 +8,13 @@ h1{font-size:22px;margin:0 0 2px}.meta{color:#8a9bab;font-size:13px;margin-botto
 .ct{font-size:16px;font-weight:bold;color:#e6edf3}
 .cu{font-size:11px;color:#c9a24a;margin-top:8px;border-top:1px solid #26313c;padding-top:6px}
 .miss{color:#c47f00}
-</style><style>/*VPATCH-V*/thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body>
-<h1>🧪 指標研究開發</h1><div class="meta">更新於 2026-10-05 20:49</div>
-<div class="grid"><a class="card" href="wk55-3f9a1c.html" style="border-left:5px solid #4da3ff"><div class="ct">週寶塔翻紅 + 週MACD + 創55日高</div><div class="cu">🕒 更新 10/05 20:49</div></a>
-<a class="card" href="tzdown.html" style="border-left:5px solid #4da3ff"><div class="ct">投信買 · 布林中軌上 · 當天收跌</div><div class="cu">🕒 更新 10/05 20:13</div></a>
-<a class="card" href="brk-288410.html" style="border-left:5px solid #4da3ff"><div class="ct">斷漲停選股</div><div class="cu">🕒 更新 10/04 21:51</div></a>
-<a class="card" href="warrantdaily-b7c2e5.html" style="border-left:5px solid #c9a24a"><div class="ct">權證市場資金異動日報</div><div class="cu">🕒 更新 10/04 21:52</div></a>
-<a class="card" href="chainmap-5b2e8f.html" style="border-left:5px solid #3fbf6f"><div class="ct">台股產業鏈地圖</div><div class="cu">🕒 更新 10/05 20:47</div></a></div>
-<div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-10-05 20:49</div><script>(function(){
-var VKEY='V選股';
-function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
-function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
-var VSEL=vGet(), VONLY=false;
-function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
-function aug(){
- var ts=document.querySelectorAll('table');
- for(var i=0;i<ts.length;i++){var t=ts[i];
-  if(t.getAttribute('data-vdone'))continue;
-  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
-  t.setAttribute('data-vdone','1');
-  var hrs=t.querySelectorAll('thead tr');
-  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
-  var trs=t.querySelectorAll('tbody tr');
-  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
-   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
-    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
-     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
-    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
-   tr.insertBefore(td,tr.firstElementChild);}
- }
-}
-function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
-function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
- var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
- b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
- var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
- c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
- if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
- else{host.appendChild(b);host.appendChild(c);}
-}
-function boot(){aug();mkbar();vApply();}
-if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
-window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
-})();</script><script>/*DISP-MARK*/
-(function(){var DM={"2221": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "2221 大甲|2026-10-01~2026-10-12|處置 2分盤|"}, "22211": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "22211 大甲一|2026-10-01~2026-10-12|處置 2分盤|"}, "30165": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "30165 嘉晶五|2026-10-05~2026-10-12|處置 2分盤|"}, "6526": {"k": "in", "t": "處置中 09-30~10-06 2分", "tip": "6526 達發|2026-09-30~2026-10-06|第一次處置 2分盤|連續三次"}, "7792": {"k": "in", "t": "處置中 09-30~10-06 2分", "tip": "7792 安葆|2026-09-30~2026-10-06|處置 2分盤|"}, "086845": {"k": "in", "t": "處置中 10-01~10-07 2分", "tip": "086845 全友台新64購01|2026-10-01~2026-10-07|第一次處置 2分盤|連續三次"}, "3016": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "3016 嘉晶|2026-10-01~2026-10-12|第一次處置 2分盤|連續三次及當日沖銷標準"}, "30166": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "30166 嘉晶六|2026-10-01~2026-10-12|處置 2分盤|"}, "3055": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "3055 蔚華科|2026-10-01~2026-10-12|第二次處置 2分盤|連續五次及當日沖銷標準"}, "3219": {"k": "in", "t": "處置中 10-01~10-07 2分", "tip": "3219 倚強科|2026-10-01~2026-10-07|處置 2分盤|"}, "32191": {"k": "in", "t": "處置中 10-01~10-07 2分", "tip": "32191 倚強科一|2026-10-01~2026-10-07|處置 2分盤|"}, "2030": {"k": "in", "t": "處置中 10-02~10-08 2分", "tip": "2030 彰源|2026-10-02~2026-10-08|第一次處置 2分盤|連續三次"}, "8084": {"k": "in", "t": "處置中 10-02~10-08 10分", "tip": "8084 巨虹|2026-10-02~2026-10-08|處置 10分盤|"}, "8227": {"k": "in", "t": "處置中 10-02~10-08 2分", "tip": "8227 巨有科技|2026-10-02~2026-10-08|處置 2分盤|"}, "3167": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "3167 大量|2026-10-05~2026-10-12|第一次處置 2分盤|最近十個營業日已有六次"}, "4174": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "4174 浩鼎|2026-10-05~2026-10-12|處置 2分盤|"}, "62075": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "62075 雷科五|2026-10-05~2026-10-12|處置 2分盤|"}, "69571": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "69571 裕慶一KY|2026-10-05~2026-10-12|處置 2分盤|"}, "8996": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "8996 高力|2026-10-05~2026-10-12|第二次處置 2分盤|最近十個營業日已有六次"}, "2033": {"k": "fc", "t": "明天可能處置 ①收≥50.7(距-1.0%)", "tip": "2033 佳大|最快 2026-10-06 起第1次處置 2分盤|觸發:①50.7↑(-1.0%)|命中規則:5 日|Chengwaye 估算 2026-10-05 19:30"}, "2305": {"k": "fcx", "t": "處置預測名單(條件目前不符)", "tip": "2305 全友|最快 2026-10-06 起第2次處置 2分盤|觸發:① 10-05不符合 ③④⑤⑦ 10-05不符合 ⑥ 不符合（PB明日不可達，量已達標）|命中規則:5 日|Chengwaye 估算 2026-10-05 19:30"}},RULE="處置條件:注意股連續3日、連續5日、10日內6次、30日內12次達標 → 隔日起處置(處置期間與分盤撮合分鐘以交易所公告為準,見各標籤);預測為 Chengwaye 估算,非交易所預告";
-var CSS={'in':'background:#c0261b;color:#fff','next':'background:#e8590c;color:#fff','fc':'background:#ffd43b;color:#5c3c00','fc2':'background:#fff3bf;color:#7a5a00','fcx':'background:#e9ecef;color:#555'};
-function badge(v){var s=document.createElement('span');s.className='dmk';s.textContent=({'in':'🚫','next':'🚫','fc':'⚠','fc2':'△','fcx':'·'}[v.k])+v.t;s.title=v.tip+'\n'+RULE;
- s.setAttribute('style',CSS[v.k]+';font-size:11px;font-weight:700;border-radius:4px;padding:1px 5px;margin-left:5px;white-space:nowrap;display:inline-block;line-height:1.5');return s;}
-function mark(){var trs=document.querySelectorAll('tbody tr');var n=0;
- for(var i=0;i<trs.length;i++){var tr=trs[i];if(tr.querySelector('.dmk'))continue;var tds=tr.children;
-  for(var j=0;j<tds.length&&j<6;j++){var m=((tds[j].textContent||'').trim()).match(/^([0-9]{4,6})(?![0-9])/);
-   if(m){var v=DM[m[1]];if(v){tds[j].appendChild(badge(v));n++;}break;}}}
- return n;}
-function bar(){if(document.getElementById('dmbar'))return;var ks=Object.keys(DM);if(!ks.length)return;
- var a=ks.filter(function(c){return DM[c].k=='in'||DM[c].k=='next'}).length,b=ks.filter(function(c){return DM[c].k=='fc'}).length;
- var d=document.createElement('div');d.id='dmbar';d.title=RULE;
- d.setAttribute('style','font-size:12px;margin:4px 0 8px;padding:4px 8px;border-radius:6px;background:#fff4e6;color:#7a3e00;border:1px solid #ffc078;display:inline-block');
- var fcl=ks.filter(function(c){return DM[c].k=='fc'}).map(function(c){return DM[c].tip.split('|')[0]+' '+DM[c].t.replace('明天可能處置 ','')}).join(';');
- var inl=ks.filter(function(c){return (DM[c].k=='in'||DM[c].k=='next')&&c.length==4}).map(function(c){return DM[c].tip.split('|')[0]+'('+DM[c].t.replace('處置中 ','')+')'}).join('、');
- d.textContent='🚫 處置中/明起處置 '+a+' 檔 · ⚠ 明天可能處置 '+b+' 檔'+(fcl?':'+fcl:'')+'(股票旁標籤可看觸發條件)';
- if(!document.querySelector('tbody tr')){var e=document.createElement('div');e.setAttribute('style','font-size:11px;margin-top:3px;color:#7a3e00');e.textContent='處置中:'+inl;d.appendChild(e);var r=document.createElement('div');r.setAttribute('style','font-size:11px;margin-top:3px;color:#995c00');r.textContent=RULE;d.appendChild(r);}
- var h=document.querySelector('h1');if(h&&h.parentNode)h.parentNode.insertBefore(d,h.nextSibling);else document.body.insertBefore(d,document.body.firstChild);}
-var busy=false;function run(){if(busy)return;busy=true;try{mark();bar();}catch(e){}busy=false;}
-function boot(){run();try{var t=null;new MutationObserver(function(){clearTimeout(t);t=setTimeout(run,150);}).observe(document.body,{childList:true,subtree:true});}catch(e){}}
-if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-})();</script></body></html>
+</style></head><body>
+<h1>🧪 指標研究開發</h1><div class="meta">更新於 2026-10-05 18:52</div>
+<div class="grid"><a class="card" href="wk55-3f9a1c.html" style="border-left:5px solid #4da3ff"><div class="ct">週寶塔翻紅 + 週MACD + 創55日高</div><div class="cu">🕒 更新 10/05 12:49</div></a>
+<a class="card" href="tzdown.html" style="border-left:5px solid #4da3ff"><div class="ct">投信買 · 布林中軌上 · 當天收跌</div><div class="cu">🕒 更新 10/05 12:49</div></a>
+<a class="card" href="brk-288410.html" style="border-left:5px solid #4da3ff"><div class="ct">斷漲停選股</div><div class="cu">🕒 更新 10/05 12:56</div></a>
+<a class="card" href="warrantdaily-b7c2e5.html" style="border-left:5px solid #c9a24a"><div class="ct">權證市場資金異動日報</div><div class="cu">🕒 更新 10/05 15:18</div></a>
+<a class="card" href="chainmap-5b2e8f.html" style="border-left:5px solid #3fbf6f"><div class="ct">台股產業鏈地圖</div><div class="cu">🕒 更新 10/05 12:47</div></a>
+<a class="card" href="gap-a0cc38.html" style="border-left:5px solid #4da3ff"><div class="ct">差價區間選股</div><div class="cu">🕒 更新 10/05 12:55</div></a>
+<a class="card" href="主力選股-8259b2.html" style="border-left:5px solid #4da3ff"><div class="ct">主力選股</div><div class="cu">🕒 更新 10/05 12:49</div></a></div>
+</body></html>
