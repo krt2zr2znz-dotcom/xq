@@ -37,7 +37,7 @@ table.ws td{padding:3px 5px;border-bottom:1px solid #1a2530;text-align:center;co
 table.ws tr:nth-child(even) td{background:#111c26}
 table.ws td.fut{color:#ffd24d;font-weight:bold;text-align:center}
 @media(max-width:800px){.wsgrid{grid-template-columns:1fr}}
-</style></head><body><a id="lhbtn" href="#" title="盤中即時訊號需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
+</style><style>/*VPATCH-V*/thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body><a id="lhbtn" href="#" title="盤中即時訊號需用本機 localhost 開" style="display:none;position:fixed;top:8px;right:10px;z-index:9999;background:#e0a500;color:#111;padding:6px 12px;border-radius:6px;font-size:13px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.4)">🔗 用 localhost 開(即時)</a><script>(function(){try{if(location.protocol==='https:'){var b=document.getElementById('lhbtn');if(b){b.href='http://localhost:8888/'+location.pathname.split('/').pop()+location.search;b.style.display='inline-block';}}}catch(e){}})();</script>
 <header>權證多空方向　2026-10-07</header>
 <div class="tabs"><button id="b1" class="on" onclick="sw(1)">權證方向</button><button id="b2" onclick="sw(2)">族群排名</button><button id="b3" onclick="sw(3)">投資人買賣超</button></div>
 <div style="padding:8px;text-align:center"><input id="qcode" placeholder="輸入股號或股名 (如 2330/台積電)" onkeydown="if(event.key==='Enter')qtv()" style="padding:8px 10px;width:180px;border-radius:6px;border:1px solid #345;background:#0d1621;color:#e6edf3;font-size:15px"><button onclick="qtv()" style="padding:8px 14px;margin-left:6px;border:0;border-radius:6px;background:#4da3ff;color:#fff;font-size:15px;cursor:pointer">查族群</button></div>
@@ -74,4 +74,73 @@ function openTV(code){var sym=TVMAP[code]||('TWSE:'+code);document.getElementByI
 function tvcl(){document.getElementById('tvov').style.display='none';document.getElementById('tvc').innerHTML='';}
 function qtv(){var v=document.getElementById('qcode').value.trim();if(!v)return;var g=CODEG[v]||NAMEG[v]||'';if(!g){for(var k in NAMEG){if(k.indexOf(v)>=0){g=NAMEG[k];v=k;break;}}}if(!g){document.getElementById('dc').innerHTML='<h3>'+v+'</h3><div style="padding:18px">查無此股號/股名的族群</div>';document.getElementById('ov').style.display='block';return;}var a=GM[g]||[];if(a.length){showG(g);}else{document.getElementById('dc').innerHTML='<h3>'+v+' → '+g+'</h3><div style="padding:16px;color:#cfe0f0">所屬族群:'+g+'</div>';document.getElementById('ov').style.display='block';}}
 function sw(n){for(var i=1;i<=3;i++){document.getElementById('s'+i).className='sec'+(i==n?' on':'');document.getElementById('b'+i).className=(i==n?'on':'');}}
-</script></body></html>
+</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-10-07 18:32</div><script>(function(){
+var VKEY='V選股';
+function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
+function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
+var VSEL=vGet(), VONLY=false;
+function codeOf(td){var m=((td&&td.textContent)||'').trim().match(/^[0-9]{4,6}/);return m?m[0]:null}
+function aug(){
+ var ts=document.querySelectorAll('table');
+ for(var i=0;i<ts.length;i++){var t=ts[i];
+  if(t.getAttribute('data-vdone'))continue;
+  var th0=t.querySelector('thead th'); if(!th0||th0.textContent.indexOf('代碼')<0)continue;
+  t.setAttribute('data-vdone','1');
+  var hrs=t.querySelectorAll('thead tr');
+  for(var h=0;h<hrs.length;h++){var e=document.createElement('th');var hasC=false,cc=hrs[h].children;for(var y=0;y<cc.length;y++){if((cc[y].textContent||'').indexOf('代碼')>=0){hasC=true;break;}}if(hasC){e.textContent='V🔒';}e.style.width='34px';e.onclick=function(ev){ev.stopPropagation();};hrs[h].insertBefore(e,hrs[h].firstElementChild);}
+  var trs=t.querySelectorAll('tbody tr');
+  for(var r=0;r<trs.length;r++){var tr=trs[r],c=codeOf(tr.querySelector('td')),td=document.createElement('td');
+   if(c){var cb=document.createElement('input');cb.type='checkbox';cb.className='vcb';cb.setAttribute('data-code',c);cb.checked=!!VSEL[c];
+    cb.onchange=(function(cb,c){return function(){VSEL=vGet();if(cb.checked)VSEL[c]=1;else delete VSEL[c];vSave(VSEL);
+     var all=document.querySelectorAll('input.vcb[data-code="'+c+'"]');for(var k=0;k<all.length;k++)all[k].checked=cb.checked;vApply();};})(cb,c);
+    td.appendChild(cb);tr.setAttribute('data-vcode',c);}
+   tr.insertBefore(td,tr.firstElementChild);}
+ }
+}
+function vApply(){var trs=document.querySelectorAll('tr[data-vcode]');for(var i=0;i<trs.length;i++){var c=trs[i].getAttribute('data-vcode');var on=!!VSEL[c];trs[i].style.display=(!VONLY||on)?'':'none';if(on)trs[i].classList.add('vlock');else trs[i].classList.remove('vlock');}var ts=document.getElementsByTagName('table');for(var j=0;j<ts.length;j++){var tb=ts[j].tBodies[0];if(!tb)continue;var rows=[].slice.call(tb.rows).filter(function(r){return r.getAttribute&&VSEL[r.getAttribute('data-vcode')]});for(var k=rows.length-1;k>=0;k--)tb.insertBefore(rows[k],tb.firstChild);}}
+function mkbar(){if(document.getElementById('vonly'))return;var host=document.querySelector('.bar')||document.querySelector('h1');if(!host)return;
+ var b=document.createElement('button');b.id='vonly';b.className='vbtn';b.textContent='只看打V';
+ b.onclick=function(){VONLY=!VONLY;b.className=VONLY?'vbtn on':'vbtn';b.textContent=VONLY?'只看打V(開)':'只看打V';vApply();};
+ var c=document.createElement('button');c.className='vbtn2';c.textContent='清除全部V';
+ c.onclick=function(){if(!confirm('清除所有打V?'))return;VSEL={};vSave(VSEL);var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=false;vApply();};
+ if(host.tagName=='H1'){var w=document.createElement('div');w.style.margin='6px 0 10px';w.appendChild(b);w.appendChild(c);host.parentNode.insertBefore(w,host.nextSibling);}
+ else{host.appendChild(b);host.appendChild(c);}
+}
+function boot(){aug();mkbar();vApply();}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+setInterval(function(){aug();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++){var c=all[k].getAttribute('data-code');if(document.activeElement!==all[k])all[k].checked=!!VSEL[c];}vApply();},2000);
+window.addEventListener('storage',function(e){if(e.key===VKEY){VSEL=vGet();var all=document.querySelectorAll('input.vcb');for(var k=0;k<all.length;k++)all[k].checked=!!VSEL[all[k].getAttribute('data-code')];vApply();}});
+})();</script><script>/*DISP-MARK*/
+(function(){var DM={"2221": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "2221 大甲|2026-10-01~2026-10-12|處置 2分盤|"}, "22211": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "22211 大甲一|2026-10-01~2026-10-12|處置 2分盤|"}, "3016": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "3016 嘉晶|2026-10-01~2026-10-12|第一次處置 2分盤|連續三次及當日沖銷標準"}, "30165": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "30165 嘉晶五|2026-10-05~2026-10-12|處置 2分盤|"}, "30166": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "30166 嘉晶六|2026-10-01~2026-10-12|處置 2分盤|"}, "3055": {"k": "in", "t": "處置中 10-01~10-12 2分", "tip": "3055 蔚華科|2026-10-01~2026-10-12|第二次處置 2分盤|連續五次及當日沖銷標準"}, "2030": {"k": "in", "t": "處置中 10-02~10-08 2分", "tip": "2030 彰源|2026-10-02~2026-10-08|第一次處置 2分盤|連續三次"}, "8084": {"k": "in", "t": "處置中 10-07~10-14 25分", "tip": "8084 巨虹|2026-10-07~2026-10-14|處置 25分盤|"}, "8227": {"k": "in", "t": "處置中 10-02~10-08 2分", "tip": "8227 巨有科技|2026-10-02~2026-10-08|處置 2分盤|"}, "3167": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "3167 大量|2026-10-05~2026-10-12|第一次處置 2分盤|最近十個營業日已有六次"}, "4174": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "4174 浩鼎|2026-10-05~2026-10-12|處置 2分盤|"}, "62075": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "62075 雷科五|2026-10-05~2026-10-12|處置 2分盤|"}, "69571": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "69571 裕慶一KY|2026-10-05~2026-10-12|處置 2分盤|"}, "8996": {"k": "in", "t": "處置中 10-05~10-12 2分", "tip": "8996 高力|2026-10-05~2026-10-12|第二次處置 2分盤|最近十個營業日已有六次"}, "2033": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "2033 佳大|2026-10-06~2026-10-13|第一次處置 2分盤|連續三次"}, "3455": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "3455 由田|2026-10-06~2026-10-13|處置 2分盤|"}, "6533": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "6533 晶心科|2026-10-06~2026-10-13|第一次處置 2分盤|連續三次"}, "65331": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "65331 晶心科一|2026-10-06~2026-10-13|處置 2分盤|"}, "6672": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "6672 騰輝電子-KY|2026-10-06~2026-10-13|第一次處置 2分盤|連續三次"}, "6708": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "6708 天擎|2026-10-06~2026-10-13|處置 2分盤|"}, "712876": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "712876 世紀*群益63購03|2026-10-06~2026-10-13|處置 2分盤|"}, "8201": {"k": "in", "t": "處置中 10-06~10-13 2分", "tip": "8201 無敵|2026-10-06~2026-10-13|第一次處置 2分盤|連續三次"}, "3094": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "3094 聯傑|2026-10-07~2026-10-14|第一次處置 2分盤|最近十個營業日已有六次"}, "3518": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "3518 柏騰|2026-10-07~2026-10-14|第一次處置 2分盤|連續三次"}, "35181": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "35181 柏騰一|2026-10-07~2026-10-14|處置 2分盤|"}, "4556": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "4556 旭然|2026-10-07~2026-10-14|處置 2分盤|"}, "5013": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "5013 強新|2026-10-07~2026-10-14|處置 2分盤|"}, "705235": {"k": "in", "t": "處置中 10-07~10-14 2分", "tip": "705235 力旺凱基5B購01|2026-10-07~2026-10-14|處置 2分盤|"}, "1709": {"k": "fc", "t": "明天可能處置 ①收≥59.4(距-6.2%);②收≥63.4(距+0.", "tip": "1709 和益|最快 2026-10-08 起第1次處置 2分盤|觸發:①59.4↑(-6.2%) ②63.4↑(+0.2%) ③ 跌停仍過價格條件；量≥76,782張，量放大倍數比全市場平均高≥4倍，6日漲跌差幅≥20個百分點④ 跌停仍過價格條件；量≥47,702張（週轉率≥10%），週轉率比全市場平均高≥5|命中規則:—|Chengwaye 估算 2026-10-07 19:30"}},RULE="處置條件:注意股連續3日、連續5日、10日內6次、30日內12次達標 → 隔日起處置(處置期間與分盤撮合分鐘以交易所公告為準,見各標籤);預測為 Chengwaye 估算,非交易所預告";
+var CSS={'in':'background:#c0261b;color:#fff','next':'background:#e8590c;color:#fff','fc':'background:#ffd43b;color:#5c3c00','fc2':'background:#fff3bf;color:#7a5a00','fcx':'background:#e9ecef;color:#555'};
+function badge(v){var s=document.createElement('span');s.className='dmk';s.textContent=({'in':'🚫','next':'🚫','fc':'⚠','fc2':'△','fcx':'·'}[v.k])+v.t;s.title=v.tip+'\n'+RULE;
+ s.setAttribute('style',CSS[v.k]+';font-size:11px;font-weight:700;border-radius:4px;padding:1px 5px;margin-left:5px;white-space:nowrap;display:inline-block;line-height:1.5');return s;}
+function mark(){var trs=document.querySelectorAll('tbody tr');var n=0;
+ for(var i=0;i<trs.length;i++){var tr=trs[i];if(tr.querySelector('.dmk'))continue;var tds=tr.children;
+  for(var j=0;j<tds.length&&j<6;j++){var m=((tds[j].textContent||'').trim()).match(/^([0-9]{4,6})(?![0-9])/);
+   if(m){var v=DM[m[1]];if(v){tds[j].appendChild(badge(v));n++;}break;}}}
+ return n;}
+function bar(){if(document.getElementById('dmbar'))return;var ks=Object.keys(DM);if(!ks.length)return;
+ var a=ks.filter(function(c){return DM[c].k=='in'||DM[c].k=='next'}).length,b=ks.filter(function(c){return DM[c].k=='fc'}).length;
+ var d=document.createElement('div');d.id='dmbar';d.title=RULE;
+ d.setAttribute('style','font-size:12px;margin:4px 0 8px;padding:4px 8px;border-radius:6px;background:#fff4e6;color:#7a3e00;border:1px solid #ffc078;display:inline-block');
+ var fcl=ks.filter(function(c){return DM[c].k=='fc'}).map(function(c){return DM[c].tip.split('|')[0]+' '+DM[c].t.replace('明天可能處置 ','')}).join(';');
+ var inl=ks.filter(function(c){return (DM[c].k=='in'||DM[c].k=='next')&&c.length==4}).map(function(c){return DM[c].tip.split('|')[0]+'('+DM[c].t.replace('處置中 ','')+')'}).join('、');
+ d.textContent='🚫 處置中/明起處置 '+a+' 檔 · ⚠ 明天可能處置 '+b+' 檔'+(fcl?':'+fcl:'')+'(股票旁標籤可看觸發條件)';
+ if(!document.querySelector('tbody tr')){var e=document.createElement('div');e.setAttribute('style','font-size:11px;margin-top:3px;color:#7a3e00');e.textContent='處置中:'+inl;d.appendChild(e);var r=document.createElement('div');r.setAttribute('style','font-size:11px;margin-top:3px;color:#995c00');r.textContent=RULE;d.appendChild(r);}
+ lst(d);
+ var h=document.querySelector('h1');if(h&&h.parentNode)h.parentNode.insertBefore(d,h.nextSibling);else document.body.insertBefore(d,document.body.firstChild);}
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
+function lst(d){/* 2026-10-07 使用者:「點這個可以列出來包含可能處置」→ 點摘要列 展開/收起 完整清單 */
+ var G=[['fc','⚠ 明天可能處置(明天收盤達條件 → 隔日起處置)'],['next','🚫 明天起處置'],['in','🚫 處置中'],['fc2','△ 注意中(再差 2 次注意)']];
+ var h='';G.forEach(function(g){var cs=Object.keys(DM).filter(function(c){return DM[c].k==g[0]}).sort();if(!cs.length)return;
+  h+='<div style="font-weight:700;margin:8px 0 3px">'+g[1]+' '+cs.length+' 檔</div>'+cs.map(function(c){var v=DM[c],p=(v.tip||'').split('|'),nm=p[0]||c,det=p.slice(1).filter(function(x){return x&&x.indexOf('規則:')!==0}).join(' · ');
+   return '<div style="padding:3px 0;border-bottom:1px dashed #ffd8a8;line-height:1.5"><b class="sc" data-c="'+esc(c)+'" style="cursor:pointer;text-decoration:underline">'+esc(nm)+'</b> <span style="font-weight:600">'+esc(v.t)+'</span><div style="color:#8a5a14;font-size:11.5px">'+esc(det).slice(0,220)+'</div></div>'}).join('')});
+ if(!h)return;
+ var pn=document.createElement('div');pn.id='dmlist';pn.setAttribute('style','display:none;margin-top:6px;max-height:60vh;overflow:auto;cursor:auto;font-size:12.5px;color:#3b2a10;min-width:min(560px,86vw)');pn.innerHTML=h+'<div style="font-size:11px;margin-top:6px;color:#995c00">'+esc(RULE)+'</div>';
+ d.appendChild(document.createTextNode(' ▾ 點我列出清單'));d.style.cursor='pointer';d.appendChild(pn);
+ d.addEventListener('click',function(e){if(pn.contains(e.target))return;pn.style.display=pn.style.display=='none'?'block':'none';});}
+var busy=false;function run(){if(busy)return;busy=true;try{mark();bar();}catch(e){}busy=false;}
+function boot(){run();try{var t=null;new MutationObserver(function(){clearTimeout(t);t=setTimeout(run,150);}).observe(document.body,{childList:true,subtree:true});}catch(e){}}
+if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();</script></body></html>
