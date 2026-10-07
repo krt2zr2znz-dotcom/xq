@@ -16,7 +16,9 @@ tr.qflash td,.qflash{background:var(--hotbg)!important;transition:background .4s
 #chains>.chain:not([open]):hover{border-color:var(--accent)}
 .flw{font-size:12px;color:var(--muted);white-space:nowrap}details.node .flw{white-space:normal;grid-column:1/-1;display:block}#chains>.chain:not([open])>summary .flw{width:100%;font-size:12px}
 #all .frow td{padding:4px 6px;background:var(--panel);position:sticky;top:0}#all .frow input,#all .frow select{font:inherit;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--ink);max-width:100%}#all .frow input{width:100%;box-sizing:border-box}
-</style><!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
+.fbar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:stretch;margin:6px 0 10px}.fb1{background:var(--chip);border-radius:8px;padding:6px 14px;min-width:110px}.fbl{font-size:12px;color:var(--muted)}.fbv{font-size:20px;font-weight:700;line-height:1.3}.fbn{align-self:center;font-size:12px}
+.chain,.panel,#all{scroll-margin-top:74px}
+</style><!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台股產業鏈地圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -137,6 +139,11 @@ const CMEM={}; Object.keys(CH).forEach(i=>{const u=new Set(); CH[i].forEach(s=>(
 const CF={}; Object.keys(CH).forEach(i=>CF[i]=FLs(CMEM[i]));
 function fY(v,sg){if(v==null)return '—'; const a=Math.abs(v), t=a>=100?a.toFixed(0):a>=10?a.toFixed(1):a.toFixed(2); return (sg?(v>0?'+':v<0?'−':''):'')+t+'億';}
 function flowS(o){if(!o)return ''; return '<span class="flw">今 <b class="num '+cls(o.p)+'">'+fmt(o.p)+'%</b> · 資金 <b class="num '+cls(o.f)+'">'+fY(o.f,1)+'</b> · 量 <span class="num">'+fY(o.a)+'</span></span>';}
+function flowBar(i,s){/* 10/7 使用者:「點 ITO導電基板 可以看到他的族群(今日/資金/量)三個資料,接著才是全部個股」 */
+  const o=FLs(J.all[i+'|'+s]); if(!o)return '';
+  const t=(lab,v,c)=>'<div class="fb1"><div class="fbl">'+lab+'</div><div class="fbv num '+(c||'')+'">'+v+'</div></div>';
+  return '<div class="fbar">'+t('今日漲跌(等權)',fmt(o.p)+'%',cls(o.p))+t('資金流向',fY(o.f,1),cls(o.f))+t('成交值',fY(o.a),'')+
+    '<div class="fbn sub">'+esc(s)+' 全部 '+o.k+' 檔加總 · 資金流向 = 外盤成交金額 − 內盤成交金額(盤後逐筆'+(J.flowD?','+esc(J.flowD):'')+')</div></div>';}
 function flowTD(c){const x=FLW[c]; if(!x)return '<td class="num">—</td><td class="num">—</td><td class="num">—</td>'; return '<td class="num '+cls(x[0])+'">'+fmt(x[0])+'</td><td class="num '+cls(x[2])+'">'+fY(x[2],1).replace('億','')+'</td><td class="num">'+fY(x[1]).replace('億','')+'</td>';}
 
 function lvOf(i,s){return LV[i+'|'+s]||guess(s);}
@@ -173,7 +180,7 @@ document.getElementById('chains').addEventListener('toggle',e=>{const d=e.target
   const ch=d.closest('.chain'), pn=ch.querySelector('.panel');
   if(d.open){ch.querySelectorAll('details.node[open]').forEach(x=>{if(x!==d)x.open=false;}); const [i,s]=d.dataset.k.split('|');
     setTimeout(()=>pn.scrollIntoView({behavior:'smooth',block:'start'}),30);
-    pn.innerHTML='<div class="ptitle"><b>'+esc(s)+'</b> <span class="sub">'+esc(i)+' · '+lvOf(i,s)+' · 名稱藍色 = 主屬性就是這個子產業</span></div><div class="mem">'+memRows(i,s)+'</div>';}
+    pn.innerHTML='<div class="ptitle"><b>'+esc(s)+'</b> <span class="sub">'+esc(i)+' · '+lvOf(i,s)+' · 名稱藍色 = 主屬性就是這個子產業</span></div>'+flowBar(i,s)+'<div class="mem">'+memRows(i,s)+'</div>';}
   else if(!ch.querySelector('details.node[open]')) pn.innerHTML='';},true);
 // 10/4:點產業鏈標題上的「發動 n / 轉強 n」→ 下方列出那些子產業的個股
 document.getElementById('chains').addEventListener('click',e=>{const pk=e.target.closest('.pk'); if(!pk)return; e.preventDefault(); e.stopPropagation();
@@ -181,7 +188,7 @@ document.getElementById('chains').addEventListener('click',e=>{const pk=e.target
   ch.querySelectorAll('details.node[open]').forEach(x=>x.open=false);
   const ss=CH[i].filter(s=>SUB[i+'|'+s]&&SUB[i+'|'+s].st===st).sort((a,b)=>SUB[i+'|'+b].r20-SUB[i+'|'+a].r20);
   pn.innerHTML='<div class="ptitle"><b>'+esc(i)+' · '+st+' '+ss.length+' 個子產業的個股</b> <span class="sub">名稱藍色 = 主屬性就是這個子產業</span></div>'+
-    ss.map(s=>{const x=SUB[i+'|'+s];return '<div class="ptitle" style="margin-top:10px"><b>'+esc(s)+'</b> <span class="sub">'+lvOf(i,s)+' · 20日 '+fmt(x.r20)+'% · 5日 '+fmt(x.r5)+'% · 站上月線 '+x.br+'%</span></div><div class="mem">'+memRows(i,s)+'</div>';}).join('');
+    ss.map(s=>{const x=SUB[i+'|'+s];return '<div class="ptitle" style="margin-top:10px"><b>'+esc(s)+'</b> <span class="sub">'+lvOf(i,s)+' · 20日 '+fmt(x.r20)+'% · 5日 '+fmt(x.r5)+'% · 站上月線 '+x.br+'%</span></div>'+flowBar(i,s)+'<div class="mem">'+memRows(i,s)+'</div>';}).join('');
   pn.scrollIntoView({behavior:'smooth',block:'nearest'});},true);
 document.querySelectorAll('#stf input').forEach(x=>x.onchange=draw);
 document.getElementById('sort').onchange=draw; document.getElementById('only').onchange=draw;
