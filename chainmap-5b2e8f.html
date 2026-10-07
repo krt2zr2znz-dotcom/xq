@@ -15,6 +15,7 @@ tr.qflash td,.qflash{background:var(--hotbg)!important;transition:background .4s
 #chains>.chain:not([open])>summary .sub{font-size:11.5px;line-height:1.45}
 #chains>.chain:not([open]):hover{border-color:var(--accent)}
 .flw{font-size:12px;color:var(--muted);white-space:nowrap}details.node .flw{white-space:normal;grid-column:1/-1;display:block}#chains>.chain:not([open])>summary .flw{width:100%;font-size:12px}
+#all .frow td{padding:4px 6px;background:var(--panel);position:sticky;top:0}#all .frow input,#all .frow select{font:inherit;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--ink);max-width:100%}#all .frow input{width:100%;box-sizing:border-box}
 </style><!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台股產業鏈地圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,7 +111,7 @@ mark{background:var(--hotbg);color:inherit;padding:0 2px;border-radius:3px}
 
 <details class="allbox" open><summary><h2 style="margin-top:30px">▾ 子產業強弱(<span id="nall"></span> 個;點標題收放)</h2></summary>
 <p class="sub" style="margin:2px 0 10px">點欄位排序;點任一列 → 跳到那條產業鏈並列出成分股。站上月線 = 核心成員收盤在 20 日均線上的比例。</p>
-<div class="allt"><table id="all"><thead><tr><th data-k="s">子產業</th><th data-k="i">產業鏈</th><th data-k="lv">層級</th><th data-k="st">狀態</th><th data-k="n">核心檔數</th><th data-k="r5">5 日%</th><th data-k="r20">20 日%</th><th data-k="br">站上月線%</th></tr></thead><tbody></tbody></table></div></details>
+<div class="allt"><table id="all"><thead><tr><th data-k="s">子產業</th><th data-k="i">產業鏈</th><th data-k="lv">層級</th><th data-k="st">狀態</th><th data-k="n">核心檔數</th><th data-k="r5">5 日%</th><th data-k="r20">20 日%</th><th data-k="fp">今日%</th><th data-k="ff">資金流向(億)</th><th data-k="fa">成交值(億)</th><th data-k="br">站上月線%</th></tr><tr class="frow"><td><input id="fQ" placeholder="🔍 子產業/產業鏈" autocomplete="off"></td><td><select id="fI"></select></td><td><select id="fLv"></select></td><td><select id="fSt"></select></td><td colspan="7" class="sub" style="text-align:right"><button class="btn" id="fClr" type="button">清除篩選</button></td></tr></thead><tbody></tbody></table></div></details>
 
 
 </div>
@@ -195,9 +196,20 @@ document.getElementById('q').addEventListener('input',e=>{const q=e.target.value
   el.innerHTML=h||'<div class="sub">找不到</div>';});
 // 子產業表
 let sk='r20',asc=false; const ORD={'發動':4,'轉強':3,'整理':2,'落後':1};
-function drawAll(){const rows=[...J.subs].sort((a,b)=>{let x=sk==='st'?ORD[a.st]:a[sk],y=sk==='st'?ORD[b.st]:b[sk]; if(typeof x==='string')return asc?x.localeCompare(y,'zh-Hant'):y.localeCompare(x,'zh-Hant'); return asc?x-y:y-x;});
-  document.getElementById('nall').textContent=J.subs.length;
-  document.querySelector('#all tbody').innerHTML=rows.map(r=>'<tr data-k="'+esc(r.i+'|'+r.s)+'"><td>'+esc(r.s)+'</td><td>'+esc(r.i)+'</td><td>'+r.lv+'</td><td><span class="pill '+PILL[r.st]+'">'+r.st+'</span></td><td class="num">'+r.n+'</td><td class="num '+cls(r.r5)+'">'+fmt(r.r5)+'</td><td class="num '+cls(r.r20)+'">'+fmt(r.r20)+'</td><td class="num">'+r.br+'</td></tr>').join('');}
+function drawAll(){/* 10/7 使用者:「標頭下拉選項」→ 產業鏈/層級/狀態 下拉篩選 + 文字搜尋;加 今日%/資金流向/成交值 欄 */
+  J.subs.forEach(r=>{if(r._f)return; const o=(typeof FLs==='function')?FLs(J.all[r.i+'|'+r.s]):null; r.fp=o?o.p:null; r.ff=o?o.f:null; r.fa=o?o.a:null; r._f=1;});
+  const fI=document.getElementById('fI'); if(fI&&!fI.options.length){const opt=(el,k,ord)=>{const C={}; J.subs.forEach(r=>C[r[k]]=(C[r[k]]||0)+1); let ks=Object.keys(C); ks.sort(ord||((a,b)=>a.localeCompare(b,'zh-Hant')));
+      el.innerHTML='<option value="">全部('+J.subs.length+')</option>'+ks.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'('+C[x]+')</option>').join('');};
+    opt(fI,'i'); opt(document.getElementById('fLv'),'lv'); opt(document.getElementById('fSt'),'st',(a,b)=>(ORD[b]||0)-(ORD[a]||0));
+    ['fI','fLv','fSt'].forEach(id=>document.getElementById(id).onchange=drawAll); document.getElementById('fQ').oninput=drawAll;
+    document.getElementById('fClr').onclick=()=>{['fI','fLv','fSt','fQ'].forEach(id=>document.getElementById(id).value=''); drawAll();};}
+  const g=id=>{const e=document.getElementById(id); return e?e.value:'';}, Fi=g('fI'), Fl=g('fLv'), Fs=g('fSt'), Fq=g('fQ').trim();
+  const rs=J.subs.filter(r=>(!Fi||r.i===Fi)&&(!Fl||r.lv===Fl)&&(!Fs||r.st===Fs)&&(!Fq||r.s.includes(Fq)||r.i.includes(Fq)));
+  const rows=rs.sort((a,b)=>{let x=sk==='st'?ORD[a.st]:a[sk],y=sk==='st'?ORD[b.st]:b[sk]; if(typeof x==='string'||typeof y==='string')return asc?String(x).localeCompare(String(y),'zh-Hant'):String(y).localeCompare(String(x),'zh-Hant'); x=x??-1e9; y=y??-1e9; return asc?x-y:y-x;});
+  document.getElementById('nall').textContent=rows.length<J.subs.length?rows.length+' / '+J.subs.length:J.subs.length;
+  const fy=(v,s)=>v==null?'—':((s&&v>0?'+':'')+(Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1):v.toFixed(2)));
+  document.querySelector('#all tbody').innerHTML=rows.map(r=>'<tr data-k="'+esc(r.i+'|'+r.s)+'"><td>'+esc(r.s)+'</td><td>'+esc(r.i)+'</td><td>'+r.lv+'</td><td><span class="pill '+PILL[r.st]+'">'+r.st+'</span></td><td class="num">'+r.n+'</td><td class="num '+cls(r.r5)+'">'+fmt(r.r5)+'</td><td class="num '+cls(r.r20)+'">'+fmt(r.r20)+'</td>'+
+    '<td class="num '+cls(r.fp)+'">'+fmt(r.fp)+'</td><td class="num '+cls(r.ff)+'">'+fy(r.ff,1)+'</td><td class="num">'+fy(r.fa)+'</td><td class="num">'+r.br+'</td></tr>').join('');}
 document.querySelectorAll('#all th').forEach(th=>th.onclick=()=>{const k=th.dataset.k; if(sk===k)asc=!asc; else {sk=k; asc=(k==='s'||k==='i'||k==='lv');} drawAll();});
 document.querySelector('#all tbody').addEventListener('click',e=>{const tr=e.target.closest('tr'); if(!tr)return; const [i,s]=tr.dataset.k.split('|');
   if(document.getElementById('only').checked&&!document.querySelector('.chain[data-i="'+CSS.escape(i)+'"]')){document.getElementById('only').checked=false; draw();}
