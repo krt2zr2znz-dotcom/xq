@@ -18,7 +18,7 @@ tr.qflash td,.qflash{background:var(--hotbg)!important;transition:background .4s
 #all .frow td{padding:4px 6px;background:var(--panel);position:sticky;top:0}#all .frow input,#all .frow select{font:inherit;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:5px;background:var(--panel);color:var(--ink);max-width:100%}#all .frow input{width:100%;box-sizing:border-box}
 .fbar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:stretch;margin:6px 0 10px}.fb1{background:var(--chip);border-radius:8px;padding:6px 14px;min-width:110px}.fbl{font-size:12px;color:var(--muted)}.fbv{font-size:20px;font-weight:700;line-height:1.3}.fbn{align-self:center;font-size:12px}
 .chain,.panel,#all{scroll-margin-top:74px}
-</style><!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
+</style><!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台股產業鏈地圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -175,7 +175,7 @@ function chainHTML(i,open){const sc=chainScore(i); const by={}; CH[i].forEach(s=
 function draw(){const so=document.getElementById('sort').value, only=document.getElementById('only').checked;
   let ks=Object.keys(CH); if(only) ks=ks.filter(i=>{const s=chainScore(i);return s.h+s.t>0;});
   ks.sort((a,b)=>{const A=chainScore(a),B=chainScore(b); if(so==='name')return a.localeCompare(b,'zh-Hant'); if(so==='r20')return (B.med??-99)-(A.med??-99); if(so==='flow'||so==='amt'||so==='pct'){const k={flow:'f',amt:'a',pct:'p'}[so],x=CF[a]?CF[a][k]:null,y=CF[b]?CF[b][k]:null; return (y??-1e9)-(x??-1e9);} return (B.h*3+B.t)-(A.h*3+A.t)||((B.med??-99)-(A.med??-99));});
-  document.getElementById('chains').innerHTML=ks.map((i,k)=>chainHTML(i,k<3)).join('');}
+  document.getElementById('chains').innerHTML=ks.map((i,k)=>chainHTML(i,false)).join('');}
 document.getElementById('chains').addEventListener('toggle',e=>{const d=e.target; if(!(d.classList&&d.classList.contains('node')))return;
   const ch=d.closest('.chain'), pn=ch.querySelector('.panel');
   if(d.open){ch.querySelectorAll('details.node[open]').forEach(x=>{if(x!==d)x.open=false;}); const [i,s]=d.dataset.k.split('|');
