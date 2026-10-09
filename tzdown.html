@@ -18,13 +18,13 @@ table.st{font-size:13px;box-shadow:none;border:1px solid #e3e8f0}table.st th{bac
 #pre .pb{border:1px solid #c5cbd6;background:#fff;border-radius:6px;padding:3px 10px;cursor:pointer;font-size:13px}#pre .pb.on{background:#1f3a68;color:#fff;border-color:#1f3a68}
 </style><style>/*VPATCH-V*/thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style></head><body>
 <h1>投信買 · 布林中軌上 · 當天收跌</h1><div style="background:#123d1e;color:#b7f0c8;padding:6px 12px;margin:8px 0;border-radius:6px;font-size:12px">✓ 投信買賣超(官方) 資料已更新至 <b>2026-10-08</b>（最新交易日）</div>
-<div class="meta">資料日 2026-10-08 · 產生 2026-10-10 00:34 · 投信/外資 = 證交所 T86 + 櫃買 官方(跟富邦投信買超排行同來源)· 點欄位標題排序</div>
-<div class="bar" id="pre"><b>快速篩選</b> <button type="button" class="pb" data-p="1">原本條件 + 融資增(預設)</button> <button type="button" class="pb" data-p="2">原本條件(投信 ≥ 成交量 3% + 中軌上 + 收跌)</button> <button type="button" class="pb" data-p="0">全部取消</button></div>   <!-- 2026-10-09 使用者:「上面做一個篩選功能,預設投信買,融資增,跌」→「本來條件就好加上我剛剛說的」= 原本(≥3%+中軌上+收跌)+ 融資增 -->
+<div class="meta">資料日 2026-10-08 · 產生 2026-10-10 00:38 · 投信/外資 = 證交所 T86 + 櫃買 官方(跟富邦投信買超排行同來源)· 點欄位標題排序</div>
+<div class="bar" id="pre"><b>快速篩選</b> <button type="button" class="pb" data-p="1">投信買超 &gt; 0 + 中軌上 + 收跌 + 融資增(預設)</button> <button type="button" class="pb" data-p="2">原本條件(投信 ≥ 成交量 3% + 中軌上 + 收跌)</button> <button type="button" class="pb" data-p="0">全部取消</button></div>   <!-- 2026-10-09 使用者:「上面做一個篩選功能,預設投信買,融資增,跌」→「本來條件就好加上我剛剛說的」= 原本(≥3%+中軌上+收跌)+ 融資增 →「用這個條件就好」= 投信買超>0 + 中軌上 + 收跌 + 融資增 -->
 <div class="bar">
  <label>日期 <select id="d"></select></label>
  <label>市場 <select id="mk"><option value="">全部</option><option>上市</option><option>上櫃</option></select></label>
  <label>投信大買 <select id="tz">
-  <option value="b0">買超 &gt; 0</option><option value="r2">≥ 成交量 2%</option><option value="r3" selected>≥ 成交量 3%</option>
+  <option value="b0" selected>買超 &gt; 0</option><option value="r2">≥ 成交量 2%</option><option value="r3">≥ 成交量 3%</option>
   <option value="r5">≥ 成交量 5%</option><option value="z200">≥ 200 張</option><option value="z500">≥ 500 張</option><option value="s1">≥ 股本 0.1%</option><option value="s3">≥ 股本 0.3%</option></select></label>
  <label><input type="checkbox" id="mid" checked>布林中軌上(收盤 &gt; 20MA)</label>
  <label><input type="checkbox" id="dn" checked>當天收跌</label>
@@ -81,7 +81,7 @@ function draw(){var VS=vget();bt();var rows=(P.data[$('d').value]||[]).filter(pa
  var _all=(P.data[$('d').value]||[]);$('cnt').textContent='符合 '+rows.length+' 檔(當天投信有資料 '+_all.length+' 檔)'+($('mg').checked&&_all.length&&!_all.some(function(r){return r[24]!=null})?' · 這天融資還沒公布(約 21:30 後才有),先把「融資增」取消':'');}
 (function(){var s=$('d');for(var i=P.dates.length-1;i>=0;i--){var o=document.createElement('option');o.value=o.textContent=P.dates[i];s.appendChild(o)}
  ['d','mk','tz','mid','dn','mv','hd2','mg'].forEach(function(id){$(id).addEventListener('input',function(){pmark();draw()});$(id).addEventListener('change',function(){pmark();draw()})});
- var PR={1:{tz:'r3',mid:true,dn:true,mg:true},2:{tz:'r3',mid:true,dn:true,mg:false},0:{tz:'b0',mid:false,dn:false,mg:false}};
+ var PR={1:{tz:'b0',mid:true,dn:true,mg:true},2:{tz:'r3',mid:true,dn:true,mg:false},0:{tz:'b0',mid:false,dn:false,mg:false}};
  function pmark(){document.querySelectorAll('#pre .pb').forEach(function(b){var q=PR[b.getAttribute('data-p')];b.classList.toggle('on',$('tz').value===q.tz&&$('mid').checked===q.mid&&$('dn').checked===q.dn&&$('mg').checked===q.mg)})}
  document.querySelectorAll('#pre .pb').forEach(function(b){b.onclick=function(){var q=PR[b.getAttribute('data-p')];$('tz').value=q.tz;$('mid').checked=q.mid;$('dn').checked=q.dn;$('mg').checked=q.mg;pmark();draw()}});
  pmark();draw();})();
