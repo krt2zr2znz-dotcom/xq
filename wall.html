@@ -498,7 +498,8 @@ function stopPoll(){if(timer){clearInterval(timer);timer=null;}}
 var D=window.SC_DATA||{s:{}}, S=D.s||{};
 function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function lb(){var p=decodeURIComponent(location.pathname),k='/04_輸出結果/',i=p.indexOf(k);
-  if(location.protocol!=='file:'||i<0)return '';var r=p.slice(i+k.length);if(r.indexOf('網站部署/')===0)return '';
+  if(location.protocol!=='file:'){var q=p.indexOf('/replay-');return q>=0?p.slice(0,q+1):'';}   /* 2026-10-09 網頁版回放在子資料夾 → 連回網站根 */
+  if(i<0)return '';var r=p.slice(i+k.length);if(r.indexOf('網站部署/')===0)return '';
   var d=r.split('/').length-1,o='';for(var j=0;j<d;j++)o+='../';return o+'網站部署/';}
 var LB=lb();
 var css='.sc-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:16px}'
@@ -525,15 +526,50 @@ function html(code,cur){
     h+='<div><b>昨開高低</b> '+M('開 ')+tg(r.yo)+' · '+M('高 ')+tg(r.yh)+' · '+M('低 ')+tg(r.yl)+'</div>';}
   else h+='<div>'+M('撐壓:沒有資料')+'</div>';
   var j=function(a){return a.map(function(x){return x==null?'—':(x>0?'+':'')+x;}).join(' / ');};
+  if(o.ch){var C=o.ch,SC={'發動':'#d6336c','轉強':'#e8590c','整理':'#868e96','落後':'#2b8a3e'};   /* 2026-10-09 產業鏈地圖 */
+    h+='<div class="sc-hr"><b>產業鏈</b> '+esc(C[0])+' › <b>'+esc(C[1])+'</b>'+(C[2]?M('('+esc(C[2])+')'):'')+(C[4]?' <b style="color:'+(SC[C[4]]||'#868e96')+'">'+esc(C[4])+'</b>':'')+(C[5]!=null?M(' 子產業20日 '+(C[5]>0?'+':'')+C[5]+'%'):'')+(C[3]?M(' · '+esc(C[3])):'')+' · '+'<a class="sc-a" href="'+LB+'chainmap-5b2e8f.html#'+encodeURIComponent(C[0])+'" target="_blank" rel="noopener">看產業鏈地圖</a>'+'</div>';}
   h+='<div class="sc-hr"><b>籌碼</b> '+M('(前一交易日)')+'</div>';
   h+=m.i?'<div><b>外資</b> 5日 '+sg(m.i.fs)+' 張 '+M('('+j(m.i.f)+')')+' · <b>投信</b> 5日 '+sg(m.i.ts)+' 張 '+M('('+j(m.i.t)+')')+'</div>':'<div>'+M('外資/投信:近 5 日沒有買賣超資料')+'</div>';
   h+=m.e?'<div><b>主動ETF</b> '+(m.e.n?m.e.n+' 檔持有,平均權重 '+m.e.w+'%':'沒有主動 ETF 持有')+(m.e.chg&&m.e.chg.length?' · '+String(inf.etf||'').slice(5)+' 異動:'+m.e.chg.slice(0,4).map(function(x){return esc(x[0])+' '+sg(x[1])+'張';}).join('、'):'')+'</div>':'<div>'+M('主動ETF:沒有持有')+'</div>';
   h+=m.w?'<div><b>權證</b> '+String(inf.war||'').slice(5)+' 認購買進 '+Number(m.w.call).toLocaleString()+' 萬 · 認售買進 '+Number(m.w.put).toLocaleString()+' 萬'+(m.w.top&&m.w.top.length?' · 認購淨買前 3:'+m.w.top.map(function(x){return esc(x[0])+' '+x[1]+'萬';}).join('、'):'')+(m.w.dir?' · <b>'+esc(m.w.dir)+'</b>':'')+'</div>':'<div>'+M('權證:前一交易日沒有成交')+'</div>';
+  h+='<div class="sc-flow" data-c="'+esc(code)+'">'+M('資金流向 5/10/20 載入中…')+'</div>';setTimeout(function(){loadFlow(fillAll)},0);
   var yx=(r&&r.x==='TPEX')?'TWO':'TW', A=function(u,t){return '<a class="sc-a" href="'+u+'" target="_blank" rel="noopener">'+t+'</a>';};
+  h+='<div>'+M('連結 ')+A(LB+'warrantflow.html?code='+code,'權證分點')+' · '+A(LB+'warrantdaily-b7c2e5.html?code='+code,'權證資金日報')+' · '+A(LB+'etfflow.html?code='+code,'主動ETF買賣')+' · '+A('https://tw.stock.yahoo.com/quote/'+code+'.'+yx+'/institutional-trading','外資/投信/自營(Yahoo)')+' · '+A(LB+'inst25.html?code='+code,'法人前25')+'</div>';
   h+='<div>'+A(LB+'fenpoint.html?code='+code,'分點買賣(前30大)')+' · '+A(LB+'broker.html?code='+code,'分點勝率')+' · '+A('https://tw.stock.yahoo.com/quote/'+code+'.'+yx+'/news','新聞(Yahoo)')+' · '+A('https://news.google.com/search?q='+encodeURIComponent(code+' '+(o.n||''))+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant','新聞(Google)')+'</div>';
   var tvu='https://tw.tradingview.com/chart/'+(D.tvl?D.tvl+'/':'')+'?symbol='+((r&&r.x)||'TWSE')+':'+code+'&interval=5';
   h+='<div><a class="sc-tv" href="'+tvu+'" target="_blank" rel="noopener">📈 TradingView 5 分圖</a> '+M(D.tvl?'(你的版面)':'(開你上次用的版面)')+'</div>';
   return h;}
+/* 2026-10-09 使用者:權證直接給多空;外資/投信/自營、主動ETF、主力、隔日沖占比 5/10/20 + 圖表 + 資金流向。資料 sc_flow.js(個股卡_資金流.py 每天產),第一次開卡才載入 */
+var F=null,FL=0,FQ=[],WIN=(function(){try{return +localStorage.getItem('sc_win')||20}catch(e){return 20}})();
+function loadFlow(cb){if(F){cb&&cb();return}FQ.push(cb);if(FL)return;FL=1;var sc=document.createElement('script');sc.src=LB+'sc_flow.js?v='+(new Date().toISOString().slice(0,10));
+  sc.onload=function(){F=window.SCF||{s:{}};FQ.splice(0).forEach(function(f){f&&f()})};sc.onerror=function(){F={s:{},err:1};FQ.splice(0).forEach(function(f){f&&f()})};document.head.appendChild(sc);}
+function fillAll(){[].forEach.call(document.querySelectorAll('.sc-flow[data-c]'),function(e){e.innerHTML=flowHtml(e.getAttribute('data-c'))});}
+function sum(a,n){var t=0,k=0;a.slice(-n).forEach(function(x){if(x!=null){t+=x;k++}});return k?t:null;}
+function bars(a,n,pct){a=a.slice(-n);var W=Math.max(60,n*7),H=24,bw=W/n,mx=0;a.forEach(function(x){if(x!=null&&Math.abs(x)>mx)mx=Math.abs(x)});if(!mx)return M('—');
+  var y0=pct?H:H/2,sc=pct?H/mx:(H/2)/mx,o='<svg width="'+W+'" height="'+H+'" style="vertical-align:middle"><line x1="0" x2="'+W+'" y1="'+y0+'" y2="'+y0+'" stroke="rgba(128,128,128,.4)"/>';
+  a.forEach(function(x,i){if(x==null||!x)return;var h=Math.max(1,Math.abs(x)*sc),y=x>0?y0-h:y0;o+='<rect x="'+(i*bw+1)+'" y="'+y+'" width="'+Math.max(1,bw-2)+'" height="'+h+'" fill="'+(pct?'#f08c00':(x>0?'#e5484d':'#2fa36b'))+'"/>'});return o+'</svg>';}
+var BTN={'強多':'<b class="sc-up">抱 5 天有超額 +0.43%(t 4.0,扣成本 +0.17%)</b>;但隔天當沖反而 −0.17%','多':'<b>隔天當沖反而偏弱</b>(超額 −0.17%,t −9.6),抱 5 天不顯著 → 別當買進訊號',
+ '空':'隔天當沖確實偏弱(超額 +0.17%,t 8.2)但扣 0.3% 成本不賺;抱 5 天反而偏強','強空':'隔天當沖偏弱(超額 +0.19%,t 3.9)扣成本不賺;抱 5 天不顯著'};   /* 2026-10-09 回測_權證多空自算_報告.md */
+function flowHtml(code){
+  if(!F)return M('資金流向 載入中…');if(F.err)return M('資金流向:讀不到 sc_flow.js(跑 個股卡_資金流.py)');
+  var r=F.s[code];if(!r)return M('資金流向:沒有這檔近 20 日資料');
+  var K={};(F.k||[]).forEach(function(k,i){K[k]=r[i]||[]});var D=F.d||[];
+  var add=function(){var a=[].slice.call(arguments),o=[];for(var i=0;i<D.length;i++){var t=null;a.forEach(function(s){var x=s[i];if(x!=null)t=(t||0)+x});o.push(t)}return o};
+  var inst=add(K.f,K.t,K.d),hp=K.h.map(function(x,i){var v=K.v[i];return (x!=null&&v)?Math.round(x/v*1000)/10:null});
+  var wd=(F.wd||{})[code],WC={'強多':'#c92a2a','多':'#e5484d','打架':'#868e96','空':'#2fa36b','強空':'#087f5b','中性':'#868e96'};
+  var h='<div class="sc-hr"><b>權證多空</b> '+(wd?'<b style="font-size:17px;padding:0 10px;border-radius:6px;color:#fff;background:'+(WC[wd[0]]||'#868e96')+'">'+esc(wd[0])+'</b> '+M(wd[1]==='HiStock'?'(HiStock 投資人買賣超)':'(權證分點自算 近5日投資人淨買)')+(wd[1]!=='HiStock'&&BTN[wd[0]]?'<div class="sc-sm" style="line-height:1.5">'+M('回測 2023-06~2026-10:')+BTN[wd[0]]+'</div>':'')+(wd[2]?' <b style="color:#fff;background:#f08c00;padding:0 6px;border-radius:5px">'+esc(wd[2])+'</b>':''):M('近 5 日權證投資人買賣都不到 30 萬,不判斷'))+'</div>';
+  var tab=function(n){return '<button type="button" class="sc-x" style="float:none;margin-left:4px;padding:0 8px'+(n===WIN?';background:#2962ff;color:#fff':'')+'" onclick="StockCard.win('+n+')">'+n+'日</button>'};
+  h+='<div><b>資金流向</b> '+M('(張;權證萬元,資料到 '+esc(String(D[D.length-1]||'').slice(5))+')')+tab(5)+tab(10)+tab(20)+'</div>';
+  var row=function(nm,a,pct,unit){var c5=pct?avgp(a,5):sum(a,5),c10=pct?avgp(a,10):sum(a,10),c20=pct?avgp(a,20):sum(a,20),f=function(x){return x==null?'—':(pct?'<b>'+x+'%</b>':sg(Math.round(x)))};
+    return '<tr><td style="text-align:left;white-space:nowrap">'+nm+'</td><td>'+f(c5)+'</td><td>'+f(c10)+'</td><td>'+f(c20)+'</td><td style="text-align:left;padding-left:12px">'+bars(a,WIN,pct)+'</td></tr>'};
+  var avgp=function(a,n){var hh=0,vv=0;for(var i=Math.max(0,D.length-n);i<D.length;i++){if(K.h[i]!=null&&K.v[i]){hh+=K.h[i];vv+=K.v[i]}}return vv?Math.round(hh/vv*1000)/10:null};
+  h+='<table style="width:100%;border-collapse:collapse;font-size:13px;text-align:right"><tr class="sc-mu"><td></td><td>5日</td><td>10日</td><td>20日</td><td style="text-align:left;padding-left:12px">近'+WIN+'日(紅買綠賣)</td></tr>'
+   +row('外資',K.f)+row('投信',K.t)+row('自營',K.d)+row('<b>法人合計</b>',inst)+row('主動ETF',K.e)+(K.m.some(function(x){return x!=null})?row('主力(分點前15)',K.m):'')
+   +row('隔日沖分點買進',K.h)+row('<b>隔日沖占比</b>',hp,1)+row('認購 投資人淨買萬',K.wcn)+row('認售 投資人淨買萬',K.wpn)+'</table>';
+  var flow=function(n){var a=sum(inst,n)||0,e=sum(K.e,n)||0,t=a+e;return n+'日 '+(t>0?'<b class="sc-up">流入 '+Math.round(t).toLocaleString()+'</b>':(t<0?'<b class="sc-dn">流出 '+Math.round(-t).toLocaleString()+'</b>':'持平'))};
+  h+='<div>'+M('法人+主動ETF:')+flow(5)+' · '+flow(10)+' · '+flow(20)+' 張'+M(' · 隔日沖占比 = 17 家隔日沖分點買進 ÷ 成交量')+'</div>';
+  return h;}
+function setWin(n){WIN=n;try{localStorage.setItem('sc_win',n)}catch(e){}fillAll();}
 var ov=null;
 function open(code){
   if(!ov){ov=document.createElement('div');ov.className='sc-ov';ov.innerHTML='<div class="sc-box"></div>';document.body.appendChild(ov);
@@ -545,7 +581,7 @@ function open(code){
 document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-sc],.sc[data-c]');if(!t)return;
   var c=t.getAttribute('data-sc')||t.getAttribute('data-c');if(!c)return;e.preventDefault();e.stopPropagation();open(c);},true);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov)ov.style.display='none';});
-window.StockCard={open:open,html:html,has:function(c){return !!S[c];},data:D};
+window.StockCard={open:open,html:html,has:function(c){return !!S[c];},data:D,win:setWin,flow:function(cb){loadFlow(function(){fillAll();cb&&cb()})}};
 })();
 </script>
 <div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-10-08 18:48</div><script>(function(){

@@ -102,4 +102,4 @@ function lst(d){/* 2026-10-07 使用者:「點這個可以列出來包含可能�
 var busy=false;function run(){if(busy)return;busy=true;try{mark();bar();}catch(e){}busy=false;}
 function boot(){run();try{var t=null;new MutationObserver(function(){clearTimeout(t);t=setTimeout(run,150);}).observe(document.body,{childList:true,subtree:true});}catch(e){}}
 if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-})();</script></body></html>
+})();</script><script src="sc_focus.js"></script></body></html>
