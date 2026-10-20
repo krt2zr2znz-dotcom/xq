@@ -68,7 +68,7 @@ function mark(){var trs=document.querySelectorAll('tbody tr');var n=0;
 function bar(){if(document.getElementById('dmbar'))return;var ks=Object.keys(DM);if(!ks.length)return;
  var a=ks.filter(function(c){return DM[c].k=='in'||DM[c].k=='next'}).length,b=ks.filter(function(c){return DM[c].k=='fc'}).length;
  var d=document.createElement('div');d.id='dmbar';d.title=RULE;
- d.setAttribute('style','font-size:15px;line-height:1.8;margin:4px 0 8px;padding:8px 12px;border-radius:6px;background:#fff4e6;color:#7a3e00;border:1px solid #ffc078;display:inline-block');
+ d.setAttribute('style','font-size:15px;line-height:1.8;margin:4px 0 8px;padding:8px 12px;border-radius:6px;background:#fff4e6;color:#7a3e00;border:1px solid #ffc078;display:inline-block;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere');
  var fcl=ks.filter(function(c){return DM[c].k=='fc'}).map(function(c){return DM[c].tip.split('|')[0]+' '+DM[c].t.replace('明天可能處置 ','')}).join(';');
  var inl=ks.filter(function(c){return (DM[c].k=='in'||DM[c].k=='next')&&c.length==4}).map(function(c){return DM[c].tip.split('|')[0]+'('+DM[c].t.replace('處置中 ','')+')'}).join('、');
  var at=ks.filter(function(c){return DM[c].k=='att'||DM[c].k=='fc2'}).length;d.textContent='🚫 處置中/明起處置 '+a+' 檔 · ★ 明天盤中可能處置 '+b+' 檔'+(fcl?':'+fcl:'')+' · 📋 注意股 '+at+' 檔(股票旁標籤可看觸發條件)';
@@ -83,8 +83,13 @@ function lst(d){/* 2026-10-07 使用者:「點這個可以列出來包含可能�
    return '<div style="padding:8px 0;border-bottom:1px dashed #ffd8a8;line-height:1.7">'+(v.k=='fc'?'<b style="color:#d9480f">★ </b>':'')+'<b class="sc" data-c="'+esc(c)+'" style="cursor:pointer;text-decoration:underline">'+esc(nm)+'</b> <span style="font-weight:600">'+esc(v.t)+'</span><div style="color:#8a5a14;font-size:13.5px;margin-top:2px">'+esc(det).slice(0,300)+'</div></div>'}).join('')+'</details>'});
  if(!h)return;
  var pn=document.createElement('div');pn.id='dmlist';pn.setAttribute('style','display:none;margin-top:6px;max-height:60vh;overflow:auto;cursor:auto;font-size:15px;color:#3b2a10;min-width:min(560px,86vw)');pn.innerHTML=h+'<div style="font-size:13px;margin-top:6px;color:#995c00">'+esc(RULE)+'</div>';
- d.appendChild(document.createTextNode(' ▾ 點我列出清單'));d.style.cursor='pointer';d.appendChild(pn);
- d.addEventListener('click',function(e){if(pn.contains(e.target))return;pn.style.display=pn.style.display=='none'?'block':'none';});}
+ /* 2026-10-20 使用者:「這個點不開」→ 改成真的按鈕(手機 / App / TG 內建瀏覽器都點得到),整條摘要列也照樣可以點 */
+ var bt=document.createElement('button');bt.type='button';bt.textContent='▾ 點我列出清單';
+ bt.setAttribute('style','display:block;margin-top:6px;font-size:15px;font-weight:700;padding:6px 14px;border-radius:6px;border:1px solid #d9480f;background:#fff;color:#d9480f;cursor:pointer;touch-action:manipulation');
+ d.style.cursor='pointer';d.appendChild(bt);d.appendChild(pn);
+ var tg=function(){var o=pn.style.display=='none';pn.style.display=o?'block':'none';bt.textContent=o?'▴ 收起清單':'▾ 點我列出清單';};
+ bt.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();tg();});
+ d.addEventListener('click',function(e){if(pn.contains(e.target)||bt.contains(e.target))return;tg();});}
 var busy=false;function run(){if(busy)return;busy=true;try{mark();bar();}catch(e){}busy=false;}
 function boot(){run();try{var t=null;new MutationObserver(function(){clearTimeout(t);t=setTimeout(run,150);}).observe(document.body,{childList:true,subtree:true});}catch(e){}}
 if(document.readyState=='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
