@@ -30,7 +30,7 @@ tr:last-child td{border-bottom:none}
 <header><span>台股法人雷達 📡 <span id="hdate" style="font-weight:normal;font-size:12px;color:var(--mut)"></span></span></header>
 <div class="top"><a href="report2.html">◀ 回日報</a></div>
 <div class="ov" id="ov"></div>
-<div class="note">※ 自營商 / 漲跌家數 / 外資台指期淨多單 我們未存(顯示 —);大盤合計為「本系統追蹤股票 universe」的張數統計,非全市場億元,要準需接 FinMind 三大法人。排行/族群彙計為可靠資料。</div>
+<div class="note">※ 自營商 / 漲跌家數 / 外資台指期淨多單 我們未存(顯示 —);大盤合計為「本系統追蹤股票 universe」的張數統計,非全市場億元,要準需接  三大法人。排行/族群彙計為可靠資料。</div>
 
 <h3>外資買賣超排行</h3><div class="src">單位:張 · 買超紅/賣超綠 · 數字後標記:連N天同向 / B2S由買轉賣 / S2B由賣轉買</div>
 <div class="wrap" id="fxwrap"></div>
@@ -61,7 +61,7 @@ document.getElementById('hdate').textContent='('+DB.date+')';
 var ovh='';
 if(o){ovh+='<div class="col"><div class="sub">加權指數</div><div class="big '+(o.chg>0?'pos':'neg')+'">'+o.c.toLocaleString()+'</div><div class="sub '+(o.chg>0?'pos':'neg')+'">'+(o.chg>0?'▲+':'▼')+o.chg+' ('+(o.pct>0?'+':'')+o.pct+'%)</div><div style="margin-top:4px"><span class="badge '+(o.up20?'bg-up':'bg-dn')+'">MA20 '+(o.up20?'上':'下')+'</span><span class="badge '+(o.up60?'bg-up':'bg-dn')+'">MA60 '+(o.up60?'上':'下')+'</span></div></div>';}
 ovh+='<div class="col"><div class="sub">外資淨(張·universe)</div><div class="big '+(DB.fx_tot>0?'pos':'neg')+'">'+num(DB.fx_tot)+'</div><div class="sub">投信淨 <span class="'+(DB.it_tot>0?'pos':'neg')+'">'+num(DB.it_tot)+'</span> 張</div></div>';
-ovh+='<div class="col"><div class="sub">自營 / 漲跌家數 / 台指期淨多單</div><div class="big" style="color:#6b7d8f">— / — / —</div><div class="sub">未存(可接FinMind補)</div></div>';
+ovh+='<div class="col"><div class="sub">自營 / 漲跌家數 / 台指期淨多單</div><div class="big" style="color:#6b7d8f">— / — / —</div><div class="sub">未存(可接補)</div></div>';
 document.getElementById('ov').innerHTML=ovh;
 
 var R=DB.R;

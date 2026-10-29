@@ -57,7 +57,7 @@ select{background:var(--card);color:var(--tx);border:1px solid var(--line);borde
 .cell .tj{background:#7a5a00;color:#ffe08a;border-radius:3px;font-size:9px;padding:0 3px;margin-left:3px}
 #ov a{font-size:13px;text-decoration:none;background:var(--blu);color:#fff;border-radius:6px;padding:6px 12px}
 </style><style>/*VPATCH-V*/thead th{position:sticky;top:0;z-index:5}.vcb{width:19px;height:19px;cursor:pointer;accent-color:#1F3864}.vbtn{font-size:13px;padding:5px 12px;border:1px solid #2E5496;border-radius:6px;background:#fff;color:#1F3864;cursor:pointer;font-weight:700;margin-right:6px}.vbtn.on{background:#1F3864;color:#fff}.vbtn2{font-size:13px;padding:5px 12px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:#556;cursor:pointer}tr.vlock{background:#fff3cd !important}tr.vlock td:first-child{border-left:3px solid #f0a500}</style><!--PWA--><link rel="manifest" href="app.webmanifest" crossorigin="use-credentials"><meta name="theme-color" content="#0f1115"><link rel="apple-touch-icon" href="app-icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="交易報表"><style>#appnav{display:none;position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:99999;gap:8px}#appnav a{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:22px;background:rgba(20,22,30,.88);color:#ffd166;font:20px system-ui;text-decoration:none;border:1px solid #d63384;box-shadow:0 2px 10px rgba(0,0,0,.4)}@media (display-mode: standalone){#appnav{display:flex}}</style><script>if(navigator.standalone)document.documentElement.classList.add("ios-app");document.addEventListener("DOMContentLoaded",function(){if(document.getElementById("appnav"))return;var n=document.createElement("div");n.id="appnav";n.innerHTML='<a href="javascript:history.back()" title="返回">‹</a><a href="app-start.html" title="總入口">🏠</a>';document.body.appendChild(n);if(navigator.standalone)n.style.display="flex"});if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});</script><!--/PWA--></head><body>
-<header>族群縮圖牆 <span style="color:var(--mut);font-weight:normal;font-size:12px">(類 XQ 多股同列 · 依漲跌排序 · 點格放大)</span></header>
+<header>族群縮圖牆 <span style="color:var(--mut);font-weight:normal;font-size:12px">(多股同列 · 依漲跌排序 · 點格放大)</span></header>
 <div class="top">
   <a class="a-back" href="report2.html">◀ 回日報</a>
   <button id="grpBtn">🏆 族群排行</button>
@@ -83,7 +83,7 @@ function setStatus(){
   var el=document.getElementById('stat'); el.style.display='block';
   if(MODE==='min'){
     if(bridgeOK){el.style.background='#173a2a';el.style.color='#7fe0a8';el.innerHTML='🟢 盤中即時 · '+(SRC||'即時橋接')+' 連線中 · 個股走勢=今日分時';}
-    else{el.style.background='#4a1d1d';el.style.color='#ffb3b3';el.innerHTML='🔴 XQ / 即時橋接未開啟 —— 目前顯示「'+(mktOpen()?'上一交易日':'當天')+'收盤」。要看盤中即時(永豐):請開 <b>一鍵_族群牆永豐即時.bat</b>,並用 <b>http://localhost:8888/wall.html</b> 開本頁(不用開 XQ)。';}
+    else{el.style.background='#4a1d1d';el.style.color='#ffb3b3';el.innerHTML='🔴 看盤軟體 / 即時橋接未開啟 —— 目前顯示「'+(mktOpen()?'上一交易日':'當天')+'收盤」。要看盤中即時:請開 <b>一鍵_族群牆.bat</b>,並用 <b>http://localhost:8888/wall.html</b> 開本頁(不用開 看盤軟體)。';}
   }else{
     el.style.background='#16202b';el.style.color='#8a9bab';
     el.innerHTML='⚪ 日線 · 小格顯示「今日走勢」(當天均價線白+CDP),點格放大看「近 3 日分K」';
@@ -149,7 +149,7 @@ function spark(arr,w,h,pad){
 }
 // 移動平均(日線用):MA(收盤,週期)。前 p-1 日不足 → null。
 function ma(arr,p){var o=[];for(var i=0;i<arr.length;i++){if(i<p-1){o.push(null);continue;}var s=0;for(var j=i-p+1;j<=i;j++)s+=arr[j];o.push(s/p);}return o;}
-// 日線收盤走勢圖 + 均線(MA5橘/MA20藍)+ CDP 三線(類 XQ 日K)。CDP 落在範圍內才畫。
+// 日線收盤走勢圖 + 均線(MA5橘/MA20藍)+ CDP 三線(日K)。CDP 落在範圍內才畫。
 function sparkDay(arr,w,h,pad,cdp,s60){
   if(!arr||arr.length<2) return '<div class="na">資料未更新</div>';
   var mAvg=ma(arr,5),vals=arr.slice();          // 日均線=MA5 白線(同分時均價線風格;要改期數改這個 5)
@@ -165,7 +165,7 @@ function sparkDay(arr,w,h,pad,cdp,s60){
   if(s60){[['#f0b429',s60.vr,'60分量壓','L'],['#e0b060',s60.vs,'60分量撐','L'],['#e06666',s60.gp,'60分缺壓','R'],['#5aa87a',s60.gd,'60分缺撐','R']].forEach(function(t){if(inR(t[1])){var yy=+Y(t[1]).toFixed(1);var _lx=(t[3]==='R')?(w-pad-2):(pad+2),_an=(t[3]==='R')?'end':'start';_cdpL+='<line x1="'+pad+'" y1="'+yy+'" x2="'+(w-pad)+'" y2="'+yy+'" stroke="'+t[0]+'" stroke-width="1" stroke-dasharray="5,2" opacity="0.95"/><text x="'+_lx+'" y="'+(yy-1.5)+'" fill="#fff" font-size="7" font-family="Arial" text-anchor="'+_an+'">'+t[2]+'</text>';}});}
   return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none">'+_cdpL+poly(arr,col,1.6)+poly(mAvg,'#ffffff',1.1)+'</svg>';
 }
-// 現價分時線 + 均價線(類 XQ:均價線用橘黃色)。avg 可含 null → 分段畫。
+// 現價分時線 + 均價線(均價線用橘黃色)。avg 可含 null → 分段畫。
 function sparkAvg(arr,avg,w,h,pad,pc,cdp,s60,keepTail){
   if(!arr||arr.length<2) return spark(arr,w,h,pad);
   // 收盤後 bridge 仍每幾秒補同一個收盤價 → 尾端一堆重複點畫成平線,砍掉。★但真分K(D3)的漲停鎖死尾端是真的,keepTail=true 就不砍。
@@ -184,7 +184,7 @@ function sparkAvg(arr,avg,w,h,pad,pc,cdp,s60,keepTail){
   function X(i){return pad+(w-2*pad)*i/(n-1);}
   function Y(v){return pad+(h-2*pad)*(1-(v-mn)/rng);}
   var ref=(pc!=null?pc:arr[0]);  // 昨收基準(紅綠上色用;落在範圍內才畫基準虛線)
-  // 分段上色:高於昨收=紅、低於昨收=綠,穿越昨收線就切開換色(同 XQ)
+  // 分段上色:高於昨收=紅、低於昨收=綠,穿越昨收線就切開換色()
   function segLine(){var runs=[],curC=null,cur=[];function pu(){if(cur.length>1)runs.push({c:curC,p:cur.slice()});}
     for(var i=0;i<n;i++){var v=arr[i]-ref,c=(v>=0?'#ff5d5d':'#3ec77a');
       if(i>0){var pv=arr[i-1]-ref;if((v>=0)!==(pv>=0)){var dn=(arr[i]-arr[i-1])||1,t=(ref-arr[i-1])/dn,xc=X(i-1)+(X(i)-X(i-1))*t,yc=Y(ref);cur.push(xc.toFixed(1)+','+yc.toFixed(1));pu();curC=c;cur=[xc.toFixed(1)+','+yc.toFixed(1)];}}
@@ -204,12 +204,12 @@ function sparkAvg(arr,avg,w,h,pad,pc,cdp,s60,keepTail){
   if(hasAvg){var seg=[],segs=[];for(var i=0;i<n;i++){var a=(i<avg.length?avg[i]:null);if(a!=null)seg.push(X(i).toFixed(1)+','+Y(a).toFixed(1));else{if(seg.length>1)segs.push(seg);seg=[];}}if(seg.length>1)segs.push(seg);segs.forEach(function(s){svg+='<polyline points="'+s.join(' ')+'" fill="none" stroke="#ffffff" stroke-width="1.1"/>';});}
   return svg+'</svg>';
 }
-// 個股均價:優先用 RTD「均價」欄(AVGLIVE);沒有均價欄→用今日分時累積均價自算(同大盤 idxAvgOf 的 fallback),
-// 這樣即使 XQ族群個股.xlsx 沒有「均價」欄,個股均價線與「站上均價」強弱判準仍可運作。
+// 個股均價:優先用 「均價」欄(AVGLIVE);沒有均價欄→用今日分時累積均價自算(同大盤 idxAvgOf 的 fallback),
+// 這樣即使 概念族群個股.xlsx 沒有「均價」欄,個股均價線與「站上均價」強弱判準仍可運作。
 function avgOf(code){ if(MODE!=='min')return null; var a=(AVGLIVE&&AVGLIVE[code]); if(a&&a.some(function(x){return x!=null;}))return a; var s=seriesOf(code); return (s&&s.length>1)?cumAvg(s):null; }
 // 昨收 = 現價/(1+漲跌幅%/100)。分時模式才給(拿來當紅綠基準+虛線);日線傳 null。
 function pcFrom(arr,ch){ if(MODE!=='min'||!arr||!arr.length||ch==null)return null; var d=1+ch/100; return d!==0?arr[arr.length-1]/d:null; }
-// 今日分時累積平均(沒有均價欄時,自算均價線,效果同 XQ 綠線)
+// 今日分時累積平均(沒有均價欄時,自算均價線,效果 綠線)
 function cumAvg(arr){var s=0,o=[];for(var i=0;i<arr.length;i++){s+=arr[i];o.push(Math.round(s/(i+1)*100)/100);}return o;}
 function idxAvgOf(k,ia){var a=(IDXAVG&&IDXAVG[k]);if(a&&a.some(function(x){return x!=null;}))return a;return cumAvg(ia);}
 function lastNum(a){if(!a||!a.length)return null;for(var i=a.length-1;i>=0;i--)if(a[i]!=null)return a[i];return null;}

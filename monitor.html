@@ -116,7 +116,7 @@ function upd(prices,intra){
   });
   var s=document.getElementById('stat');
   if(conn>0){s.textContent='🟢 盤中即時 · 對到 '+conn+'/'+ORDER.length+' 檔(每5秒更新)';s.style.background='#12331f';s.style.color='#7fe0a8';}
-  else{s.textContent='⚪ 盤後/未連線 · 顯示昨收 vs 壓力支撐(要盤中即時請開 一鍵_即時橋接.bat + XQ族群個股.xlsx)';s.style.background='#1c2530';s.style.color='#9fb0c0';}
+  else{s.textContent='⚪ 盤後/未連線 · 顯示昨收 vs 壓力支撐(要盤中即時請開 一鍵_即時橋接.bat + 概念族群個股.xlsx)';s.style.background='#1c2530';s.style.color='#9fb0c0';}
 }
 var _INTRA=null,_INTRAT=0;
 function tick(){var now=Date.now();var needI=(now-_INTRAT>25000);
