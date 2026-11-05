@@ -101,7 +101,7 @@ function draw(){var d=S.value,R=P.picks[d]||[],all=[];P.dates.forEach(function(x
  var h='<tr>'+Z.cols.map(function(x){return '<th>'+x[1]+'</th>'}).join('')+Z.res.map(function(x){return '<th>'+x[1]+'</th>'}).join('')+'</tr>';
  R.forEach(function(x){h+='<tr>'+Z.cols.map(function(k){return '<td>'+(x[k[0]]==null?'':x[k[0]])+'</td>'}).join('')+Z.res.map(function(k){var v=x.rs?x.rs[k[0]]:null;return '<td class="'+c(v)+'">'+f(v)+'</td>'}).join('')+'</tr>'});
  q('.tl').innerHTML=R.length?h:'<tr><td style="color:#889;padding:8px">這天沒有訊號</td></tr>'}
-S.onchange=draw;draw()})();</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-11-05 19:00</div><script>(function(){
+S.onchange=draw;draw()})();</script><div id="upd-stamp" style="position:fixed;bottom:6px;right:8px;background:rgba(20,30,45,.82);color:#cfe0ef;font:12px/1.4 -apple-system,'Microsoft JhengHei',sans-serif;padding:3px 10px;border-radius:8px;z-index:99999;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.3)">🕒 更新 2026-11-05 20:16</div><script>(function(){
 var VKEY='V選股';
 function vGet(){try{return JSON.parse(localStorage.getItem(VKEY)||'{}')}catch(e){return {}}}
 function vSave(s){try{localStorage.setItem(VKEY,JSON.stringify(s))}catch(e){}}
