@@ -93,7 +93,7 @@ details.node.qflash,.cflash{outline:3px solid #ffb703;outline-offset:2px}
 
 <div class="wrap">
 <header>
-  <div><div class="sub">櫃買中心產業價值鏈(FinMind)· 營收比重確認主屬性 · 股價一年.csv 計算強弱</div><h1>台股產業鏈地圖</h1></div>
+  <div><div class="sub">櫃買中心產業價值鏈· 營收比重確認主屬性 · 股價一年.csv 計算強弱</div><h1>台股產業鏈地圖</h1></div>
   <div class="sub num" id="meta"></div>
 </header>
 <div id="qtop"><div class="qw"><input id="qq" placeholder="🔍 輸入股名或代號(例:2330、台積電)→ Enter 直接跳到它在哪條產業鏈" autocomplete="off"><div id="qsug"></div></div></div>
@@ -258,7 +258,7 @@ function drawX(){const el=document.getElementById('xbox'); let h='';
     xs.slice(0,40).map(c=>'<tr><td style="white-space:nowrap">'+chip(c)+'</td><td>'+M[c].length+'</td><td style="white-space:nowrap" class="num '+cls(J.stock[c][6])+'">'+fmt(J.stock[c][6])+'%</td><td>'+M[c].map(k=>{const [i,s]=k.split('|'),x=SUB[k];return '<span class="lk" data-i="'+esc(i)+'" data-s="'+esc(s)+'">'+esc(s)+'</span><span class="sub">('+esc(i)+(x?'·'+x.st:'')+')</span>';}).join('、')+'</td></tr>').join('')+'</tbody></table>'+(xs.length>40?'<div class="sub">只列前 40 檔(橫跨最多個的在前,同個數比 20 日漲幅)</div>':'')+'</details>';
   if(J.grp&&J.grp.length){const G={}; J.grp.forEach(r=>{(G[r[0]]=G[r[0]]||[]).push(r);});
     const gs=Object.keys(G).map(g=>{const cs=G[g].map(r=>r[1]).filter(c=>J.stock[c]); const v=cs.map(c=>J.stock[c][6]).filter(x=>x!=null); v.sort((a,b)=>a-b); return [g,v.length?v[Math.floor(v.length/2)]:null];}).sort((a,b)=>(b[1]??-999)-(a[1]??-999));
-    h+='<details class="tb" style="margin-top:10px"><summary><h3 style="display:inline">🏢 集團 / 子公司 '+gs.length+' 個集團</h3> <span class="sub">(依成員 20 日中位數排序;持股資料 富邦e點通 轉投資、Yahoo 集團股,查證 '+esc(J.grpd||'')+')</span></summary><table class="dirt"><thead><tr><th>集團</th><th>20日中位</th><th>成員(母公司 → 子公司 → 關係企業 → 同集團)</th></tr></thead><tbody>'+
+    h+='<details class="tb" style="margin-top:10px"><summary><h3 style="display:inline">🏢 集團 / 子公司 '+gs.length+' 個集團</h3> <span class="sub">(依成員 20 日中位數排序;持股資料 轉投資、Yahoo 集團股,查證 '+esc(J.grpd||'')+')</span></summary><table class="dirt"><thead><tr><th>集團</th><th>20日中位</th><th>成員(母公司 → 子公司 → 關係企業 → 同集團)</th></tr></thead><tbody>'+
       gs.map(([g,md])=>{const RK={'母公司':0,'子公司':1,'關係企業':2,'同集團':3}; const rs=G[g].slice().sort((a,b)=>RK[a[2]]-RK[b[2]]);
         return '<tr><td><b>'+esc(g)+'</b></td><td class="num '+cls(md)+'">'+fmt(md)+'%</td><td>'+rs.map(r=>'<span title="'+esc(r[2]+' · '+r[3])+'">'+chip(r[1])+'</span>').join('')+'</td></tr>';}).join('')+'</tbody></table></details>';}
   if(J.ally&&J.ally.length){
