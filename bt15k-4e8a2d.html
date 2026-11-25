@@ -10,7 +10,7 @@ input.mi{width:46px;background:#0f1218;color:#e6e8ee;border:1px solid #3a4256;bo
 a{color:#7fb3ff}
 </style></head><body>
 <h1>寶塔 15K 策略</h1><a href="#dbt" style="display:inline-block;margin:6px 0 2px;padding:5px 12px;border-radius:8px;background:#1d4f7a;color:#fff;font-size:14px;text-decoration:none">📅 日期回測(選日期看那天訊號與隔天表現)↓</a>
-<div class="mut">更新 2026-11-25 09:45 · 資料日 2026-11-25</div>
+<div class="mut">更新 2026-11-25 09:55 · 資料日 2026-11-25</div>
 <div class="box mut">條件:① 寶塔線綠轉紅第一根(參數 1,新價線算法)② 網頁不限成交量;推播只推 日均量 &gt; 1 萬張 且 量比 &gt; 1(量比 = 這根 15K 量 ÷ 前一交易日同時段 15K 量,看「會推」欄)③ EMA5、EMA23 都上揚④ 紅K 實體 &gt; 上影線 ⑤ 單根實體漲幅 ≤ 3% ⑥ MACD(6,38,64)綠柱至少 2 根、最長那根之後縮的第一根(紅柱不算)<br>
 進場 = 這根 15K 收盤價(建議用 MIT / 條件單限價)· 停損 = 這根 15K 最低 · 停利自行手動 · 還沒收完的那根已符合可提前進場(下方第二表)。</div>
 <div class="box">MACD 參數(條件 ⑥ 固定用 6 / 38 / 64 算「綠柱最長後第一根縮」;這裡改參數只改下表顯示的 DIF / 訊號 / 柱):快 <input class="mi" id="mf"> 慢 <input class="mi" id="ms"> 訊號 <input class="mi" id="mg">
@@ -18,9 +18,9 @@ a{color:#7fb3ff}
 <h3>✅ 已收完、符合條件(0 則)</h3><div class="wrap"><table><thead><tr><th>時段</th><th>代碼</th><th class="l">名稱</th><th>進場(收)</th><th>停損(低)</th><th>風險%</th><th>實體漲幅%</th><th>當下漲幅%</th><th>EMA5 / 23</th><th>日均量(張)</th><th>量比</th><th>會推</th><th>DIF</th><th>訊號線</th><th>柱</th></tr></thead><tbody id="tb1"></tbody></table></div>
 <h3>⏳ 這根還沒收完、目前已符合(可提前,0 則)</h3><div class="wrap"><table><thead><tr><th>時段</th><th>代碼</th><th class="l">名稱</th><th>現價</th><th>目前最低</th><th>風險%</th><th>實體漲幅%</th><th>當下漲幅%</th><th>EMA5 / 23</th><th>日均量(張)</th><th>量比</th><th>會推</th><th>DIF</th><th>訊號線</th><th>柱</th></tr></thead><tbody id="tb2"></tbody></table></div>
 <h3 id="pvh">📅 前一交易日符合的</h3><div class="wrap"><table><thead><tr><th>時段</th><th>代碼</th><th class="l">名稱</th><th>進場(收)</th><th>停損(低)</th><th>風險%</th><th>實體漲幅%</th><th>當下漲幅%</th><th>EMA5 / 23</th><th>日均量(張)</th><th>量比</th><th>會推</th><th>DIF</th><th>訊號線</th><th>柱</th></tr></thead><tbody id="tb3"></tbody></table></div>
-<div class="mut" style="margin-top:12px">寶塔線算法:新價線 —— 綠勢中收盤創新低才多一條線,收盤突破最近 1 條線的最高 → 翻紅(第一根);紅勢中跌破最近 1 條線的最低 → 翻綠;小反彈 / 小回檔不算翻。WMA 用 15 分K 收盤、跨日接續。日均量 = 前一交易日為止 20 日平均。(有 5 檔今天沒拿到資料)</div>
+<div class="mut" style="margin-top:12px">寶塔線算法:新價線 —— 綠勢中收盤創新低才多一條線,收盤突破最近 1 條線的最高 → 翻紅(第一根);紅勢中跌破最近 1 條線的最低 → 翻綠;小反彈 / 小回檔不算翻。WMA 用 15 分K 收盤、跨日接續。日均量 = 前一交易日為止 20 日平均。(有 4 檔今天沒拿到資料)</div>
 <script>
-var P={"day": "2026-11-25", "src": "全市場昨量>1萬張 + 錄影標的", "n_univ": 227, "n_low": 0, "miss": 5, "sig": [], "pre": [], "gen": "2026-11-25 09:45", "_prev": {"day": "2026-11-24", "sig": []}};
+var P={"day": "2026-11-25", "src": "全市場昨量>1萬張 + 錄影標的", "n_univ": 227, "n_low": 0, "miss": 4, "sig": [], "pre": [], "gen": "2026-11-25 09:55", "_prev": {"day": "2026-11-24", "sig": []}};
 function ls(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}function ss(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 var F=document.getElementById('mf'),S=document.getElementById('ms'),G=document.getElementById('mg');
 F.value=ls('bt15k_mf','6');S.value=ls('bt15k_ms','38');G.value=ls('bt15k_mg','64');
